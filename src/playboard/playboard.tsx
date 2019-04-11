@@ -1,5 +1,6 @@
 import * as React from "react";
 import { DmBoard } from "src/dm-board/dm-board";
+import { DmBoardTray } from "src/dm-board/dm-board-tray";
 import { PlayBoardBackground } from "./pb-background/pb-background";
 
 export class Playboard extends React.Component {
@@ -7,7 +8,9 @@ export class Playboard extends React.Component {
     return (
       <PlayBoardBackground>
         <div className="Playboard">playboard goes here</div>
-        <DmBoard />
+        <DmBoardTray>
+          <DmBoard />
+        </DmBoardTray>
       </PlayBoardBackground>
     );
   }

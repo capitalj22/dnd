@@ -1,3 +1,26 @@
+.dm-board {
+  &.closed {
+  }
+
+  display: flex;
+  width: 6rem;
+  height: 100%;
+
+  .dm-color-picker-container {
+    padding: 0.4rem;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-flow: column;
+
+    .dm-color-picker-complete {
+      position: relative;
+      background: rgb(72, 203, 255);
+      border-radius: 0.3rem;
+      padding: 0.1rem;
+    }
+  }
+}
+
 .dm-board-images {
   display: flex;
   .dm-board-image {
