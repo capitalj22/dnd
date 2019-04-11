@@ -1,42 +1,42 @@
 import * as React from "react";
-import { CampaignManager } from "../campaignManager.service";
+import { CampaignMessenger } from "../campaignManager.service";
 import "./pb-background.scss";
 
 export class PlayBoardBackground extends React.Component {
-  private manager: CampaignManager;
-  private backgroundImage: {
-    src: string;
-    overlay: {
-      color: string;
-    };
+  public state = {
+    backgroundImage: {
+      color: "rgba(144, 193, 195, 0.2)",
+      src: ""
+    }
   };
 
   constructor(props: any) {
     super(props);
-    this.manager = new CampaignManager();
-
-    this.backgroundImage = {
-      overlay: {
-        color: "rgba(144, 193, 195, 0.2)"
-      },
-      src: this.manager.getBackgroundImage()
-    };
   }
 
-  public updateBackground() {
-    //
+  public componentDidMount(): void {
+    CampaignMessenger.getBackgroundImage().subscribe((val: string) => {
+      this.setState({
+        backgroundImage: { ...this.state.backgroundImage, src: val }
+      });
+    });
+    CampaignMessenger.getBackgroundOverlay().subscribe((val: any) => {
+      this.setState({
+        backgroundImage: { ...this.state.backgroundImage, color: val }
+      });
+    });
   }
 
   public render() {
     return (
       <div
         className="pb-bg"
-        style={{ backgroundImage: `url(${this.backgroundImage.src} )` }}
+        style={{ backgroundImage: `url(${this.state.backgroundImage.src} )` }}
       >
         <div
           className="pb-bg-overlay"
           style={{
-            background: this.backgroundImage.overlay.color
+            background: this.state.backgroundImage.color
           }}
         >
           {this.props.children}
