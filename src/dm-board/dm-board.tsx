@@ -1,16 +1,13 @@
 import * as React from "react";
 // @ts-ignore
-import { SketchPicker } from "react-color";
-import { CheckCircle, Droplet } from "react-feather";
 
-import { CampaignImages } from "src/apis/campaignImages.api";
 import { CampaignMessenger } from "src/playboard/campaignManager.service";
+import { DmBoardImagePicker } from "./components/dm-board-img-picker";
+import { DmViewManager } from "./components/viewManager/dm-view-manager";
 import "./dm-board.scss";
 interface IDmBoardState {
-  lastColor: any;
-  backgroundImages: string[];
-  selectedImage: string;
-  showColorPicker: boolean;
+  showBackgroundImagePicker: boolean;
+  backgroundImage: string;
 }
 
 export class DmBoard extends React.Component<any, IDmBoardState, any> {
@@ -18,64 +15,47 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
     super(props);
 
     this.state = {
-      lastColor: null,
-      backgroundImages: CampaignImages.getImages(),
-      selectedImage: "",
-      showColorPicker: false
+      showBackgroundImagePicker: false,
+      backgroundImage: CampaignMessenger.getCurrentBackgroundImage()
     };
   }
 
-  public componentDidMount(): void {
-    //
-  }
-
-  public updateBackgroundImage(src: string): void {
-    CampaignMessenger.setBackgroundImage(src);
-  }
-
-  public updateColor(color: any): void {
-    CampaignMessenger.setBackgroundOverlay(color);
-    this.setState({ lastColor: color.rgb });
-  }
-
-  public openColorPicker(): void {
-    if (!this.state.showColorPicker) {
-      this.setState({ showColorPicker: true });
+  public showBackgroundImagePicker(): void {
+    if (!this.state.showBackgroundImagePicker) {
+      this.setState({ showBackgroundImagePicker: true });
     }
   }
 
-  public closeColorPicker(): void {
-    this.setState({ showColorPicker: false });
+  public hideBackgroundImagePicker(): void {
+    if (this.state.showBackgroundImagePicker) {
+      this.setState({ showBackgroundImagePicker: false });
+    }
+  }
+
+  public componentDidMount(): void {
+    CampaignMessenger.getBackgroundImage().subscribe(
+      (backgroundImage: string) => {
+        this.setState({ backgroundImage });
+      }
+    );
   }
 
   public render() {
     return (
       <div className="dm-board">
-        <div className="dm-board-images">
-          {this.state.backgroundImages &&
-            this.state.backgroundImages.map(image => (
-              <div
-                onClick={e => this.updateBackgroundImage(image)}
-                className="dm-board-image"
-                style={{ backgroundImage: `url(${image} )` }}
-              />
-            ))}
-        </div>
-        <div className="dm-color-btn" onClick={e => this.openColorPicker()}>
-          {" "}
-          <Droplet />
-          {this.state.showColorPicker && (
-            <div className="dm-color-picker-container">
-              <SketchPicker
-                color={this.state.lastColor || {}}
-                className="dm-color-picker"
-                onChange={(color: any) => this.updateColor(color)}
-              />
-              <div className="dm-color-picker-complete" onClick={e => this.closeColorPicker()}>
-                <CheckCircle color="white" size={12} />
-              </div>
-            </div>
+        <div
+          className="dm-board-image"
+          onClick={this.showBackgroundImagePicker.bind(this)}
+          style={{ backgroundImage: `url(${this.state.backgroundImage} )` }}
+        >
+          {this.state.showBackgroundImagePicker && (
+            <DmBoardImagePicker
+              onClosed={this.hideBackgroundImagePicker.bind(this)}
+            />
           )}
+        </div>
+        <div>
+          <DmViewManager />
         </div>
       </div>
     );

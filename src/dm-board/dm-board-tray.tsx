@@ -2,6 +2,7 @@ import * as React from "react";
 // @ts-ignore
 import { Map } from "react-feather";
 import "./dm-board-tray.scss";
+
 interface IDmBoardState {
   isOpen: boolean;
 }

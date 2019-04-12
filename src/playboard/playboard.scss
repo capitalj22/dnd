@@ -1,0 +1,20 @@
+.pb-location-view {
+  height: 100%;
+}
+
+.pb-location-view-layout {
+  height: 100%;
+
+  .pb-view-location-img {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .pb-location-title {
+    color: white;
+  }
+
+  .pb-location-description {
+    color: white;
+  }
+}

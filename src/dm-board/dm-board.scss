@@ -2,33 +2,47 @@
   &.closed {
   }
 
-  display: flex;
   width: 6rem;
   height: 100%;
+}
 
-  .dm-color-picker-container {
-    padding: 0.4rem;
-    border-radius: 0.4rem;
+.dm-board-image {
+  width: 4rem;
+  height: 4rem;
+  background-size: cover;
+  border-radius: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.dm-board-image-picker {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: 0;
+
+  .dm-board-images {
     display: flex;
-    flex-flow: column;
+    background: #36ffad;
+  }
 
-    .dm-color-picker-complete {
-      position: relative;
-      background: rgb(72, 203, 255);
-      border-radius: 0.3rem;
-      padding: 0.1rem;
-    }
+  .dm-color-btn {
+    color: white;
   }
 }
 
-.dm-board-images {
+.dm-color-picker-container {
+  position: absolute;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
   display: flex;
-  .dm-board-image {
-    width: 4rem;
-    height: 4rem;
-    background-size: cover;
-    border-radius: 1rem;
-    margin: 1rem;
-    cursor: pointer;
+  flex-flow: column;
+
+  .dm-color-picker-complete {
+    position: relative;
+    background: rgb(72, 203, 255);
+    border-radius: 0.3rem;
+    padding: 0.1rem;
   }
 }
