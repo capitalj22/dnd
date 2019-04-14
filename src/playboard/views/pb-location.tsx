@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ICampaignLocation } from "src/apis/campaignLocations.api";
-import { CampaignMessenger } from "../campaignManager.service";
+import { CampaignMessenger } from "../../services/campaignManager.service";
 import "../playboard.scss";
 
 interface PbLocationViewState {

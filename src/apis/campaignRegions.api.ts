@@ -1,7 +1,7 @@
 import { CampaignImages } from "./campaignImages.api";
 
 export interface ICampaignRegion {
-  id: number;
+  key: number;
   title: string;
   subtitle: string;
   description: string;
@@ -10,14 +10,14 @@ export interface ICampaignRegion {
 
 const regions = [
   {
-    id: 1,
+    key: 1,
     title: "The Warbling Vale",
     subtitle: "Eastern Fehrlon",
     description: "...",
     imagesrc: CampaignImages.getImages()[0]
   },
   {
-    id: 2,
+    key: 2,
     title: "The Steppes of Dariahl",
     subtitle: "Eastern Fehrlon",
     description: "...",

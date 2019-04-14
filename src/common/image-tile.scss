@@ -1,0 +1,26 @@
+.image-tile {
+  width: 6rem;
+  height: 6rem;
+  background-size: cover;
+
+  .image-tile-overlay {
+    color: red;
+  }
+
+  &.selectable {
+    cursor: pointer;
+  }
+
+  &:hover {
+    .image-tile-overlay {
+      opacity: 0.4;
+    }
+  }
+}
+
+.image-tile-group {
+  display: flex;
+  .image-tile {
+    margin: 1rem;
+  }
+}

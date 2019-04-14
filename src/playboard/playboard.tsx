@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DmBoard } from "src/dm-board/dm-board";
 import { DmBoardTray } from "src/dm-board/dm-board-tray";
-import { CampaignMessenger } from "./campaignManager.service";
+import { CampaignMessenger } from "../services/campaignManager.service";
 import { PlayBoardBackground } from "./pb-background/pb-background";
 import { PbCharacterView } from './views/pb-character';
 import { PbLocationView } from "./views/pb-location";

@@ -3,7 +3,7 @@ import * as React from "react";
 import { SketchPicker } from "react-color";
 import { CheckCircle, Droplet } from "react-feather";
 import { CampaignImages } from "src/apis/campaignImages.api";
-import { CampaignMessenger } from "src/playboard/campaignManager.service";
+import { CampaignMessenger } from "src/services/campaignManager.service";
 
 import "../dm-board.scss";
 

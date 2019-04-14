@@ -1,6 +1,6 @@
 import * as React from "react";
 import { PB_VIEW_TYPES } from "src/common/campaign.constants";
-import { CampaignMessenger } from "src/playboard/campaignManager.service";
+import { CampaignMessenger } from "src/services/campaignManager.service";
 
 export class DmViewManager extends React.Component<any, any, any> {
   constructor(props: any) {

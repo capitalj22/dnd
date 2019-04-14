@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CampaignMessenger } from "../campaignManager.service";
+import { CampaignMessenger } from "../../services/campaignManager.service";
 import "./pb-background.scss";
 
 export class PlayBoardBackground extends React.Component {
