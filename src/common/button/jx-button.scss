@@ -1,3 +1,37 @@
 .jx-button {
-    display: flex;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &.normo {
+    &.mortal {
+      background: #33b1d4;
+      box-shadow: 0px 0px 4px 1px #98c3ca6e;
+    }
+
+    &.ghost {
+    }
+    height: 2rem;
+    padding: 0.2rem 1rem;
+    border-radius: 0.4rem;
+
+    .jx-button-label {
+      margin-right: 0.6rem;
+    }
+
+    .jx-button-icon {
+      display: flex;
+    }
+  }
+
+  &.square {
+    padding: 0.2rem;
+    border-radius: 0.4rem;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: space-around;
+  }
 }

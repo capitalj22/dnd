@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactFeather from "react-feather";
+import { IconType } from "src/constants/icons.constants";
 import "./jx-button.scss";
 
 export const JxButtonStyles = {
@@ -7,10 +8,16 @@ export const JxButtonStyles = {
   square: "square"
 };
 
+const JxButtonViz = {
+  mortal: "mortal",
+  ghost: "ghost"
+};
+
 interface JxButtonProps {
-  icon?: string;
+  icon?: IconType;
   label?: string;
-  style?: string;
+  style?: "normo" | "square";
+  viz?: "mortal" | "ghost";
   onClick?: () => any;
 }
 
@@ -27,17 +34,28 @@ export class JxButton extends React.Component<JxButtonProps, JxButtonState> {
   }
   public componentDidMount() {
     this.setState({
-      iconType: this.props.icon && ReactFeather[this.props.icon]
+      iconType: this.props.icon && ReactFeather[this.props.icon as any]
     });
   }
   public render() {
     const TagName = this.state.iconType;
+    const buttonStyle = this.props.style || JxButtonStyles.normo;
+    const buttonViz = this.props.viz || JxButtonViz.ghost;
+    const hasLabel =
+      this.props.label && this.props.style !== JxButtonStyles.square;
+    const hasIcon = this.props.icon;
+    const iconProps = {
+      size: this.props.style === JxButtonStyles.square ? 24 : 18
+    } as any;
+
     return (
-      <div className="jx-button">
-        <div className="jx-button-label">{this.props.label}</div>
-        <div className="jx-button-icon">
-          {this.state.iconType && <TagName />}
-        </div>
+      <div className={`jx-button ${buttonStyle} ${buttonViz}`} onClick={this.props.onClick}>
+        {hasLabel && <div className="jx-button-label">{this.props.label}</div>}
+        {hasIcon && (
+          <div className="jx-button-icon">
+            {this.state.iconType && <TagName {...iconProps} />}
+          </div>
+        )}
       </div>
     );
   }

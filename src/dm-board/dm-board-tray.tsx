@@ -1,6 +1,6 @@
 import * as React from "react";
 // @ts-ignore
-import { Map } from "react-feather";
+import { Settings } from "react-feather";
 import "./dm-board-tray.scss";
 
 interface IDmBoardState {
@@ -23,12 +23,12 @@ export class DmBoardTray extends React.Component<any, IDmBoardState, any> {
       <div className="dm-board-tray">
         <div
           className="content"
-          style={this.state.isOpen ? { width: "6rem" } : { width: 0 }}
+          style={this.state.isOpen ? { width: "3rem" } : { width: 0 }}
         >
           {this.state.isOpen && this.props.children}
         </div>
         <div className="handle" onClick={this.toggleContent.bind(this)}>
-          <Map className="icon" />
+          <Settings />
         </div>
       </div>
     );

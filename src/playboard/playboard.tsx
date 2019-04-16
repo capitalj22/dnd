@@ -1,9 +1,10 @@
 import * as React from "react";
+import { JxButton } from "src/common/button/jx-button";
 import { DmBoard } from "src/dm-board/dm-board";
 import { DmBoardTray } from "src/dm-board/dm-board-tray";
 import { CampaignMessenger } from "../services/campaignManager.service";
 import { PlayBoardBackground } from "./pb-background/pb-background";
-import { PbCharacterView } from './views/pb-character';
+import { PbCharacterView } from "./views/pb-character";
 import { PbLocationView } from "./views/pb-location";
 
 const views = {
@@ -34,9 +35,10 @@ export class Playboard extends React.Component<any, IPlayboardState, any> {
         <DmBoardTray>
           <DmBoard />
         </DmBoardTray>
-        <div className="pb-view-container" />
-        {this.state.currentView === views.LOCATION && <PbLocationView />}
-        {this.state.currentView === views.CHARACTER && <PbCharacterView />}
+        <div className="pb-view-container">
+          {this.state.currentView === views.LOCATION && <PbLocationView />}
+          {this.state.currentView === views.CHARACTER && <PbCharacterView />}
+        </div>
       </PlayBoardBackground>
     );
   }

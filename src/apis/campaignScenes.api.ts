@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PB_VIEW_TYPES } from "src/common/campaign.constants";
+import { PB_VIEW_TYPES } from "src/constants/campaign.constants";
 import { CampaignLocations, ICampaignLocation } from "./campaignLocations.api";
 import { CampaignRegions, ICampaignRegion } from "./campaignRegions.api";
 
