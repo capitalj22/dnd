@@ -6,7 +6,7 @@
   display: flex;
 
   .handle {
-    background: #4dffb6fc;
+    background: #00000073;
     padding: 0 0.4rem;
     border-radius: 0 0.4rem 0.4rem 0;
     color: white;
@@ -16,7 +16,7 @@
     align-items: center;
 
     &:hover {
-      background: #39d393fc;
+      background: #00000083;
     }
 
     .icon {
@@ -25,7 +25,7 @@
   }
 
   .content {
-    background: #30de97;
+    background: #00000073;
     transition: width 0.2s ease-in;
   }
 }

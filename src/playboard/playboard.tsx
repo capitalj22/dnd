@@ -1,5 +1,6 @@
 import * as React from "react";
 import { JxButton } from "src/common/button/jx-button";
+import { CharacterToken } from 'src/common/token/character-token';
 import { DmBoard } from "src/dm-board/dm-board";
 import { DmBoardTray } from "src/dm-board/dm-board-tray";
 import { CampaignMessenger } from "../services/campaignManager.service";
@@ -36,6 +37,7 @@ export class Playboard extends React.Component<any, IPlayboardState, any> {
           <DmBoard />
         </DmBoardTray>
         <div className="pb-view-container">
+        <CharacterToken />
           {this.state.currentView === views.LOCATION && <PbLocationView />}
           {this.state.currentView === views.CHARACTER && <PbCharacterView />}
         </div>

@@ -7,12 +7,22 @@
   height: 100%;
 
   .pb-view-location-img {
-    width: 10rem;
-    height: 10rem;
+    width: 20rem;
+    height: 20rem;
+    background-size: cover;
   }
 
   .pb-location-title {
     color: white;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      font-size: 2rem;
+    }
+    .subtitle {
+      font-size: 1.6rem;
+    }
   }
 
   .pb-location-description {

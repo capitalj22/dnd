@@ -69,7 +69,7 @@ export class DmLocationSelect extends React.Component<
                 this.state.locations.map((location: ICampaignLocation) => (
                   <ImageTile
                     imagesrc={location.imagesrc}
-                    onSelect={this.selectLocation.bind(this, location)}
+                    onSelect={this.selectLocation.bind(this, location.key)}
                   />
                 ))}
             </div>

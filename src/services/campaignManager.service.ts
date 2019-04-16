@@ -35,6 +35,11 @@ export const CampaignMessenger = {
   }
 };
 
+export const viewManager = {
+  viewType: rx(new BehaviorSubject("default")),
+  backgroundImage: rx(new BehaviorSubject(""))
+};
+
 export const LocationManager = {
   region: rx<ICampaignRegion>(
     new BehaviorSubject(CampaignRegions.getRegions()[0])
@@ -43,4 +48,16 @@ export const LocationManager = {
     new BehaviorSubject(CampaignLocations.getLocations()[0])
   ),
   scene: rx<ICampaignScene>(new BehaviorSubject({} as any))
+};
+
+export const LocationService = {
+  updateLocation: (location: ICampaignLocation) => {
+    LocationManager.location.set(location);
+
+    if (viewManager.viewType.current() === "default") {
+      viewManager.backgroundImage.set(
+        LocationManager.region.current().imagesrc
+      )
+    }
+  }
 };

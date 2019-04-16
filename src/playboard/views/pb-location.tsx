@@ -1,6 +1,9 @@
 import * as React from "react";
 import { ICampaignLocation } from "src/apis/campaignLocations.api";
-import { CampaignMessenger, LocationManager } from "../../services/campaignManager.service";
+import {
+  CampaignMessenger,
+  LocationManager
+} from "../../services/campaignManager.service";
 import "../playboard.scss";
 
 interface PbLocationViewState {
@@ -34,9 +37,7 @@ export class PbLocationView extends React.Component<
               style={{
                 backgroundImage: `url('${this.state.currentLocation.imagesrc}')`
               }}
-            >
-              This is a location image
-            </div>
+            />
             <div className="pb-location-title">
               <span className="title">{this.state.currentLocation.title}</span>
               <span className="subtitle">

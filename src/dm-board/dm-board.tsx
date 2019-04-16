@@ -38,6 +38,12 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
     };
   }
 
+  public closeModal() {
+    this.setState({
+      showSceneManager: false
+    });
+  }
+
   public toggleSceneManager(on: boolean, view: string) {
     if (this.state.showSceneManager !== on) {
       this.setState({
@@ -59,14 +65,22 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
     LocationManager.region.set(CampaignRegions.getRegion(
       regionKey
     ) as ICampaignRegion);
+
+    this.closeModal();
   }
 
   public setLocation(locationKey: any): void {
+    // extract to service
     const location = CampaignLocations.getLocation(
       locationKey
     ) as ICampaignLocation;
-    this.setRegion(location.region);
-    LocationManager.location.set(location);
+
+    if (location) {
+      this.setRegion(location.region);
+      LocationManager.location.set(location);
+    }
+
+    this.closeModal();
   }
 
   public render() {

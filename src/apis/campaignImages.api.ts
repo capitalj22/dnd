@@ -13,5 +13,6 @@ export const CampaignImages = {
     "/campaign1/images/castle.jpg",
     "/campaign1/images/room1.jpg",
     "/campaign1/images/room2.jpg"
-  ]
+  ],
+  getCharacterImages: () => ["/campaign1/images/character1.jpg"]
 };
