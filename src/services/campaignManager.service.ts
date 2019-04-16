@@ -1,15 +1,20 @@
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { CampaignImages } from "src/apis/campaignImages.api";
 import {
   CampaignLocations,
   ICampaignLocation
 } from "src/apis/campaignLocations.api";
+import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
+import { ICampaignScene } from "src/apis/campaignScenes.api";
+
+const rx = <T extends {}>(observable: BehaviorSubject<T>) => ({
+  current: () => observable.getValue(),
+  get: () => observable.asObservable(),
+  set: (thing: T) => observable.next(thing)
+});
 
 const image = new BehaviorSubject(CampaignImages.getImages()[0]);
 const overlay = new Subject();
-const campaignLocation = new BehaviorSubject(
-  CampaignLocations.getLocations()[0]
-);
 const playerBoardView = new BehaviorSubject("location");
 
 export const CampaignMessenger = {
@@ -24,14 +29,18 @@ export const CampaignMessenger = {
       `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`
     ),
   getBackgroundOverlay: () => overlay.asObservable(),
-  location: {
-    setLocation: (location: ICampaignLocation) =>
-      campaignLocation.next(location),
-    getLocation: () => campaignLocation.asObservable(),
-    getCurrentLocation: () => campaignLocation.getValue()
-  },
   view: {
     getView: () => playerBoardView.asObservable(),
     setView: (view: string) => playerBoardView.next(view)
   }
+};
+
+export const LocationManager = {
+  region: rx<ICampaignRegion>(
+    new BehaviorSubject(CampaignRegions.getRegions()[0])
+  ),
+  location: rx<ICampaignLocation>(
+    new BehaviorSubject(CampaignLocations.getLocations()[0])
+  ),
+  scene: rx<ICampaignScene>(new BehaviorSubject({} as any))
 };

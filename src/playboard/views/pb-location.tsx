@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ICampaignLocation } from "src/apis/campaignLocations.api";
-import { CampaignMessenger } from "../../services/campaignManager.service";
+import { CampaignMessenger, LocationManager } from "../../services/campaignManager.service";
 import "../playboard.scss";
 
 interface PbLocationViewState {
@@ -16,10 +16,10 @@ export class PbLocationView extends React.Component<
     super(props);
 
     this.state = {
-      currentLocation: CampaignMessenger.location.getCurrentLocation()
+      currentLocation: LocationManager.location.current()
     };
 
-    CampaignMessenger.location.getLocation().subscribe(location => {
+    LocationManager.location.get().subscribe(location => {
       this.setState({ currentLocation: location });
     });
   }

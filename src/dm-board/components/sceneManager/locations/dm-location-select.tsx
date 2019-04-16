@@ -3,10 +3,9 @@ import {
   CampaignLocations,
   ICampaignLocation
 } from "src/apis/campaignLocations.api";
-import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
 import { JxButton } from "src/common/button/jx-button";
 import { ImageTile } from "src/common/image-tile";
-import { CampaignMessenger } from "src/services/campaignManager.service";
+import { LocationManager } from "src/services/campaignManager.service";
 import { DmRegionSelect } from "./dm-region-select";
 
 interface DmLocationSelectState {
@@ -14,8 +13,12 @@ interface DmLocationSelectState {
   selectingRegion: boolean;
 }
 
+interface DmLocationSelectProps {
+  onSelect: (locationKey: number) => any;
+}
+
 export class DmLocationSelect extends React.Component<
-  any,
+  DmLocationSelectProps,
   DmLocationSelectState,
   any
 > {
@@ -24,14 +27,14 @@ export class DmLocationSelect extends React.Component<
 
     this.state = {
       locations: CampaignLocations.getLocationsByRegion(
-        CampaignMessenger.location.getCurrentLocation().region
+        LocationManager.location.current().region
       ),
       selectingRegion: false
     };
   }
 
-  public selectLocation(regionKey: number) {
-    // athing
+  public selectLocation(locationKey: number) {
+    this.props.onSelect(locationKey)
   }
 
   public goToRegionSelect() {

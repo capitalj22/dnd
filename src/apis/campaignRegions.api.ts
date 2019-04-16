@@ -1,3 +1,4 @@
+import { find } from "lodash";
 import { CampaignImages } from "./campaignImages.api";
 
 export interface ICampaignRegion {
@@ -8,7 +9,7 @@ export interface ICampaignRegion {
   imagesrc: string;
 }
 
-const regions = [
+const regions: ICampaignRegion[] = [
   {
     key: 1,
     title: "The Warbling Vale",
@@ -26,5 +27,6 @@ const regions = [
 ];
 
 export const CampaignRegions = {
-  getRegions: () => regions
+  getRegions: () => regions,
+  getRegion: (key: number) => find(regions, { key })
 };

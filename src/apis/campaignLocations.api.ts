@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { filter, find } from "lodash";
 import { CampaignImages } from "./campaignImages.api";
 
 export interface ICampaignLocation {
@@ -87,6 +87,7 @@ const locations: ICampaignLocation[] = [
 
 export const CampaignLocations = {
   getLocations: () => locations,
+  getLocation: (key: number) => find(locations, { key }),
   getLocationsByRegion: (regionKey: number) =>
-    _.filter(locations, { region: regionKey })
+    filter(locations, { region: regionKey })
 };
