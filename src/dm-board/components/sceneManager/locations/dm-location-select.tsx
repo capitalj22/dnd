@@ -16,24 +16,29 @@ interface DmLocationSelectProps {
 
 interface DmLocationSelectState {
   selectionMode: "region" | "sector" | "space";
-  selectedRegion?: number | null;
-  selectedSector?: number | null;
-  selectedSpace?: number | null;
+  // selectedRegion?: number | null;
+  // selectedSector?: number | null;
+  // selectedSpace?: number | null;
 }
 
 export class DmLocationSelect extends React.Component<
   DmLocationSelectProps,
   DmLocationSelectState
 > {
+  private selectedRegion: number | null | undefined;
+  private selectedSector: number | null | undefined;
+  private selectedSpace: number | null | undefined;
+
   constructor(props: any) {
     super(props);
     const currentScene = SceneManager.scene.current();
     this.state = {
-      selectedRegion: currentScene.region,
-      selectedSector: currentScene.sector,
-      selectedSpace: currentScene.space,
       selectionMode: "region"
     };
+
+    this.selectedRegion = currentScene.region;
+    this.selectedSector = currentScene.sector;
+    this.selectedSpace = currentScene.space;
 
     this.selectRegion = this.selectRegion.bind(this);
     this.selectSector = this.selectSector.bind(this);
@@ -43,11 +48,11 @@ export class DmLocationSelect extends React.Component<
   }
 
   public componentDidMount() {
-    if (this.state.selectedSpace || this.state.selectedSector) {
+    if (this.selectedSpace || this.selectedSector) {
       this.setState({
         selectionMode: "space"
       });
-    } else if (this.state.selectedRegion) {
+    } else if (this.selectedRegion) {
       this.setState({
         selectionMode: "sector"
       });
@@ -60,9 +65,9 @@ export class DmLocationSelect extends React.Component<
 
   public selectLocation() {
     this.props.onSelect({
-      region: this.state.selectedRegion,
-      sector: this.state.selectedSector,
-      space: this.state.selectedSpace
+      region: this.selectedRegion,
+      sector: this.selectedSector,
+      space: this.selectedSpace
     });
   }
 
@@ -78,55 +83,43 @@ export class DmLocationSelect extends React.Component<
     });
   }
 
-  public selectRegion(regionKey?: number) {
-    if (!isNil(regionKey)) {
+  public selectRegion(key?: number) {
+    if (!isNil(key)) {
+      this.selectedRegion = key;
+      this.selectedSector = null;
+      this.selectedSpace = null;
+
       this.setState({
-        selectedRegion: regionKey,
-        selectedSector: null,
-        selectedSpace: null,
         selectionMode: "sector"
       });
     } else {
-      this.setState({
-        selectedRegion: null,
-        selectedSector: null,
-        selectedSpace: null
-      });
+      this.selectedRegion = null;
+      this.selectedSector = null;
+      this.selectedSpace = null;
 
       this.selectLocation();
     }
   }
 
-  public selectSector(sectorKey?: number) {
-    if (!isNil(sectorKey)) {
+  public selectSector(key?: number) {
+    if (!isNil(key)) {
+      this.selectedSector = key;
+      this.selectedSpace = null;
       this.setState({
-        selectedSector: sectorKey,
-        selectedSpace: null,
         selectionMode: "space"
       });
     } else {
-      this.setState({
-        selectedSector: null,
-        selectedSpace: null
-      });
+      this.selectedSector = null;
+      this.selectedSpace = null;
 
       this.selectLocation();
     }
   }
 
-  public selectSpace(spaceKey?: number) {
-    if (!isNil(spaceKey)) {
-      this.setState({
-        selectedSpace: spaceKey,
-        selectionMode: "space"
-      });
-    } else {
-      this.setState({
-        selectedSpace: null
-      });
+  public selectSpace(key?: number) {
+    this.selectedSpace = key;
 
-      this.selectLocation();
-    }
+    this.selectLocation();
   }
 
   public render() {
@@ -141,7 +134,7 @@ export class DmLocationSelect extends React.Component<
           </div>
         )}
         {this.state.selectionMode === "sector" &&
-          !isNil(this.state.selectedRegion) && (
+          !isNil(this.selectedRegion) && (
             <div>
               <JxButton
                 label="Select Region"
@@ -151,13 +144,14 @@ export class DmLocationSelect extends React.Component<
                 viz="mortal"
               />
               <DmSectorSelect
-                region={this.state.selectedRegion}
+                region={this.selectedRegion}
+                onSelectNone={this.selectSector}
                 onSelect={this.selectSector}
               />
             </div>
           )}
         {this.state.selectionMode === "space" &&
-          !isNil(this.state.selectedSector) && (
+          !isNil(this.selectedSector) && (
             <div>
               <JxButton
                 label="Select Sector"
@@ -166,7 +160,8 @@ export class DmLocationSelect extends React.Component<
                 viz="mortal"
               />
               <DmSpaceSelect
-                sector={this.state.selectedSector}
+                sector={this.selectedSector}
+                onSelectNone={this.selectSpace}
                 onSelect={this.selectSpace}
               />
             </div>

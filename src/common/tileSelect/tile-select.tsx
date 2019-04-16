@@ -8,7 +8,7 @@ interface TileSelectProps {
   tiles: any[];
   srcProp: string;
   keyProp: string;
-  onSelect: (regionKey: number) => any;
+  onSelect: (key: number) => any;
   onSelectNone?: () => any;
 }
 
@@ -19,8 +19,8 @@ export class TileSelect extends React.Component<TileSelectProps, any> {
     this.selectNone = this.selectNone.bind(this);
   }
 
-  public selectTile(regionKey: number) {
-    this.props.onSelect(regionKey);
+  public selectTile(key: number) {
+    this.props.onSelect(key);
   }
 
   public selectNone() {

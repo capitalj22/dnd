@@ -1,5 +1,6 @@
 import * as React from "react";
-import { ICampaignSector } from "src/apis/campaignSectors.api";
+import { CampaignSectors, ICampaignSector } from "src/apis/campaignSectors.api";
+import { SceneManager } from "src/services/viewManager.service";
 import {
   CampaignMessenger,
   LocationManager
@@ -19,11 +20,16 @@ export class PbLocationView extends React.Component<
     super(props);
 
     this.state = {
-      currentLocation: LocationManager.location.current()
+      currentLocation: CampaignSectors.getSector(SceneManager.scene.current()
+        .sector as number) as ICampaignSector
     };
 
-    LocationManager.location.get().subscribe(location => {
-      this.setState({ currentLocation: location });
+    SceneManager.scene.get().subscribe(scene => {
+      this.setState({
+        currentLocation: CampaignSectors.getSector(
+          scene.sector as number
+        ) as ICampaignSector
+      });
     });
   }
 

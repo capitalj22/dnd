@@ -1,5 +1,8 @@
+import { isNil } from 'lodash';
 import * as React from "react";
+import { CampaignRegions, ICampaignRegion } from 'src/apis/campaignRegions.api';
 import { CommonImages } from "src/apis/commonImages.api";
+import { SceneManager } from 'src/services/viewManager.service';
 import {
   CampaignMessenger,
   LocationManager,
@@ -23,9 +26,15 @@ export class PlayBoardBackground extends React.Component {
   }
 
   public getBackgroundSrc(): string {
+    const currentScene = SceneManager.scene.current();
+
     switch (viewManager.viewType.current()) {
       default:
-        return LocationManager.region.current().imagesrc;
+        if (!isNil(currentScene.region)) {
+          const region = CampaignRegions.getRegion(currentScene.region) as ICampaignRegion
+          return region.imagesrc
+        }
+        return ''
     }
   }
 
@@ -39,23 +48,9 @@ export class PlayBoardBackground extends React.Component {
   }
 
   public componentDidMount(): void {
-    viewManager.viewType.get().subscribe(val => {
+    SceneManager.scene.get().subscribe((scene) => {
       this.updateBackgroundImage();
-    });
-
-    LocationManager.region.get().subscribe(() => {
-      this.updateBackgroundImage();
-    });
-
-    LocationManager.location.get().subscribe(() => {
-      this.updateBackgroundImage();
-    });
-
-    CampaignMessenger.getBackgroundOverlay().subscribe((val: any) => {
-      this.setState({
-        backgroundImage: { ...this.state.backgroundImage, color: val }
-      });
-    });
+    })
   }
 
   public render() {

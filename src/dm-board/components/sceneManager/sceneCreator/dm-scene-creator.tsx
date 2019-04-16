@@ -1,6 +1,6 @@
 import * as React from "react";
 import { JxButton } from "src/common/button/jx-button";
-import { SceneManager } from "src/services/viewManager.service";
+import { ILocation, SceneManager } from "src/services/viewManager.service";
 import { DmLocationSelect } from "../locations/dm-location-select";
 
 interface DmSceneManagerState {
@@ -25,12 +25,11 @@ export class DmSceneManager extends React.Component<any, DmSceneManagerState> {
     });
   }
 
-  public updateScene(location: {
-    region?: number | null;
-    sector?: number | null;
-    space?: number | null;
-  }) {
-    console.log(location);
+  public updateScene(location: ILocation) {
+    this.setState({
+      page: "home"
+    });
+    SceneManager.updateLocation(location);
   }
 
   public render() {
