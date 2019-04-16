@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ICampaignLocation } from "src/apis/campaignLocations.api";
+import { ICampaignSector } from "src/apis/campaignSectors.api";
 import {
   CampaignMessenger,
   LocationManager
@@ -7,7 +7,7 @@ import {
 import "../playboard.scss";
 
 interface PbLocationViewState {
-  currentLocation: ICampaignLocation;
+  currentLocation: ICampaignSector;
 }
 
 export class PbLocationView extends React.Component<

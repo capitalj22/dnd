@@ -1,35 +1,37 @@
 import { isFunction } from "lodash";
 import * as React from "react";
-import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
+import { CampaignSpaces, ICampaignSpace } from "src/apis/campaignSpaces.api";
 import { TileSelect } from "src/common/tileSelect/tile-select";
 
-interface DmRegionSelectProps {
-  onSelect: (regionKey: number) => any;
+interface DmSpaceSelectProps {
+  sector: number;
+  onSelect: (locationKey: number) => any;
   onSelectNone?: () => any;
 }
 
-interface DmRegionSelectState {
-  regions: ICampaignRegion[];
+interface DmSpaceSelectState {
+  spaces: ICampaignSpace[];
 }
 
-export class DmRegionSelect extends React.Component<
-  DmRegionSelectProps,
-  DmRegionSelectState,
+export class DmSpaceSelect extends React.Component<
+  DmSpaceSelectProps,
+  DmSpaceSelectState,
   any
 > {
   constructor(props: any) {
     super(props);
 
-    this.state = {
-      regions: CampaignRegions.getRegions()
-    };
-
-    this.selectRegion = this.selectRegion.bind(this);
+    if (this.props.sector) {
+      this.state = {
+        spaces: CampaignSpaces.getSpacesBySector(this.props.sector)
+      };
+    }
+    this.selectSpace = this.selectSpace.bind(this);
     this.selectNone = this.selectNone.bind(this);
   }
 
-  public selectRegion(regionKey: number) {
-    this.props.onSelect(regionKey);
+  public selectSpace(spaceKey: number) {
+    this.props.onSelect(spaceKey);
   }
 
   public selectNone() {
@@ -44,9 +46,9 @@ export class DmRegionSelect extends React.Component<
         {this.state && (
           <TileSelect
             showNone={true}
-            onSelect={this.selectRegion}
+            onSelect={this.selectSpace}
             onSelectNone={this.selectNone}
-            tiles={this.state.regions}
+            tiles={this.state.spaces}
             srcProp="imagesrc"
             keyProp="key"
           />

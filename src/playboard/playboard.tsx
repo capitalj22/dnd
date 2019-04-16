@@ -37,7 +37,6 @@ export class Playboard extends React.Component<any, IPlayboardState, any> {
           <DmBoard />
         </DmBoardTray>
         <div className="pb-view-container">
-        <CharacterToken />
           {this.state.currentView === views.LOCATION && <PbLocationView />}
           {this.state.currentView === views.CHARACTER && <PbCharacterView />}
         </div>

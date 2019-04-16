@@ -2,23 +2,22 @@ import * as React from "react";
 // @ts-ignore
 import ReactModal from "react-modal";
 
-import {
-  CampaignLocations,
-  ICampaignLocation
-} from "src/apis/campaignLocations.api";
 import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
+import { CampaignSectors, ICampaignSector } from "src/apis/campaignSectors.api";
 import { JxButton } from "src/common/button/jx-button";
 import {
   CampaignMessenger,
   LocationManager
 } from "src/services/campaignManager.service";
-import { DmLocationSelect } from "./components/sceneManager/locations/dm-location-select";
 import { DmRegionSelect } from "./components/sceneManager/locations/dm-region-select";
+import { DmSectorSelect } from "./components/sceneManager/locations/dm-sector-select";
+import { DmSceneManager } from "./components/sceneManager/sceneCreator/dm-scene-creator";
 import "./dm-board.scss";
 
 const SCENE_MODAL_VIEWS = {
   SELECT_REGION: "select-region",
-  SELECT_LOCATION: "select-location"
+  SELECT_LOCATION: "select-location",
+  MANAGE_SCENE: "manage-scene"
 };
 
 interface IDmBoardState {
@@ -71,9 +70,7 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
 
   public setLocation(locationKey: any): void {
     // extract to service
-    const location = CampaignLocations.getLocation(
-      locationKey
-    ) as ICampaignLocation;
+    const location = CampaignSectors.getSector(locationKey) as ICampaignSector;
 
     if (location) {
       this.setRegion(location.region);
@@ -90,33 +87,21 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
           isOpen={this.state.showSceneManager}
           onRequestClose={this.toggleSceneManager.bind(this, false)}
         >
-          {this.state.sceneModalView === SCENE_MODAL_VIEWS.SELECT_LOCATION && (
-            <DmLocationSelect onSelect={this.setLocation.bind(this)} />
-          )}
-          {this.state.sceneModalView === SCENE_MODAL_VIEWS.SELECT_REGION && (
-            <DmRegionSelect onSelect={this.setRegion.bind(this)} />
+          {this.state.sceneModalView === SCENE_MODAL_VIEWS.MANAGE_SCENE && (
+            <DmSceneManager />
           )}
         </ReactModal>
         <div className="dm-board-options">
           <div className="dm-board-option">
-            <JxButton icon="Map" style="square" />
+            <JxButton icon="Camera" style="square" />
             <div className="dm-board-option-flyout">
               <JxButton
-                label="Region"
-                icon="Truck"
+                label="Edit"
+                icon="Edit"
                 onClick={this.toggleSceneManager.bind(
                   this,
                   true,
-                  SCENE_MODAL_VIEWS.SELECT_REGION
-                )}
-              />
-              <JxButton
-                label="Location"
-                icon="Truck"
-                onClick={this.toggleSceneManager.bind(
-                  this,
-                  true,
-                  SCENE_MODAL_VIEWS.SELECT_LOCATION
+                  SCENE_MODAL_VIEWS.MANAGE_SCENE
                 )}
               />
               <JxButton label="New" icon="Plus" />

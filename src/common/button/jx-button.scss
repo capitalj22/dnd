@@ -17,8 +17,12 @@
     padding: 0.2rem 1rem;
     border-radius: 0.4rem;
 
-    .jx-button-label {
+    .jx-button-label:not(.icon-on-left) {
       margin-right: 0.6rem;
+    }
+
+    .jx-button-label.icon-on-left {
+      margin-left: 0.6rem;
     }
 
     .jx-button-icon {
@@ -33,5 +37,17 @@
     height: 2rem;
     align-items: center;
     justify-content: space-around;
+  }
+
+  &.tile {
+    &.mortal {
+      background: #33b1d4;
+    }
+    height: 6rem;
+    width: 6rem;
+    margin: 1rem;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
   }
 }

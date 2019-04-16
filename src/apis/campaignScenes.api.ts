@@ -1,39 +1,40 @@
-import _ from 'lodash';
-import { PB_VIEW_TYPES } from "src/constants/campaign.constants";
-import { CampaignLocations, ICampaignLocation } from "./campaignLocations.api";
-import { CampaignRegions, ICampaignRegion } from "./campaignRegions.api";
+import _ from "lodash";
+import { PB_SCENE_TYPES } from "src/constants/campaign.constants";
 
 export interface ICampaignScene {
   key: number;
   sceneType: string;
-  region: ICampaignRegion;
-  location?: ICampaignLocation;
+  mood?: {
+    backgroundOverlay: string
+  }
+  region?: number;
+  sector?: number;
+  space?: number;
 }
 
 export interface ICharacterScene extends ICampaignScene {
   characters: any[];
 }
 
-const preloadedCampaignScenes: ICampaignScene[] = [
+const scenes: ICampaignScene[] = [
   {
     key: 1,
-    sceneType: PB_VIEW_TYPES.REGION,
-    region: CampaignRegions.getRegions()[0]
+    sceneType: PB_SCENE_TYPES.REGION,
+    mood: {
+      backgroundOverlay: 'rgba(144, 193, 195, 0.1)'
+    },
+    region: 1
   },
   {
     key: 2,
-    sceneType: PB_VIEW_TYPES.LOCATION,
-    region: CampaignRegions.getRegions()[0],
-    location: CampaignLocations.getLocations()[0]
+    sector: 2,
+    mood: {
+      backgroundOverlay: 'rgba(144, 193, 195, 0.2)'
+    },
+    sceneType: PB_SCENE_TYPES.SECTOR
   }
 ];
 
 export const CampaignScenes = {
-  getScenes: () => preloadedCampaignScenes,
-  getScenesByRegion: (region: ICampaignRegion) => _.filter(preloadedCampaignScenes, (scene) => 
-    scene.region.key === region.key
-  ), 
-  addScene: (scene: ICampaignScene) => {
-    preloadedCampaignScenes.push(scene);
-  }
+  getScenes: () => scenes
 };

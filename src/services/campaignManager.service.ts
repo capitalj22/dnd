@@ -1,17 +1,14 @@
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { CampaignImages } from "src/apis/campaignImages.api";
-import {
-  CampaignLocations,
-  ICampaignLocation
-} from "src/apis/campaignLocations.api";
 import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
 import { ICampaignScene } from "src/apis/campaignScenes.api";
+import {
+  CampaignSectors,
+  ICampaignSector
+} from "src/apis/campaignSectors.api";
+import { rx } from './baseManager.service';
 
-const rx = <T extends {}>(observable: BehaviorSubject<T>) => ({
-  current: () => observable.getValue(),
-  get: () => observable.asObservable(),
-  set: (thing: T) => observable.next(thing)
-});
+
 
 const image = new BehaviorSubject(CampaignImages.getImages()[0]);
 const overlay = new Subject();
@@ -44,14 +41,14 @@ export const LocationManager = {
   region: rx<ICampaignRegion>(
     new BehaviorSubject(CampaignRegions.getRegions()[0])
   ),
-  location: rx<ICampaignLocation>(
-    new BehaviorSubject(CampaignLocations.getLocations()[0])
+  location: rx<ICampaignSector>(
+    new BehaviorSubject(CampaignSectors.getSectors()[0])
   ),
   scene: rx<ICampaignScene>(new BehaviorSubject({} as any))
 };
 
 export const LocationService = {
-  updateLocation: (location: ICampaignLocation) => {
+  updateLocation: (location: ICampaignSector) => {
     LocationManager.location.set(location);
 
     if (viewManager.viewType.current() === "default") {

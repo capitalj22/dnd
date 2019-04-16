@@ -23,6 +23,13 @@ const regions: ICampaignRegion[] = [
     subtitle: "Eastern Fehrlon",
     description: "...",
     imagesrc: CampaignImages.getImages()[1]
+  },
+  {
+    key: 3,
+    title: "Pannion Wastes",
+    subtitle: "Central Fehrlon",
+    description: "...",
+    imagesrc: CampaignImages.getImages()[2]
   }
 ];
 

@@ -1,80 +1,176 @@
+import { isNil } from "lodash";
 import * as React from "react";
-import {
-  CampaignLocations,
-  ICampaignLocation
-} from "src/apis/campaignLocations.api";
 import { JxButton } from "src/common/button/jx-button";
-import { ImageTile } from "src/common/image-tile";
-import { LocationManager } from "src/services/campaignManager.service";
+import { SceneManager } from "src/services/viewManager.service";
 import { DmRegionSelect } from "./dm-region-select";
-
-interface DmLocationSelectState {
-  locations: ICampaignLocation[];
-  selectingRegion: boolean;
-}
+import { DmSectorSelect } from "./dm-sector-select";
+import { DmSpaceSelect } from "./dm-space-select";
 
 interface DmLocationSelectProps {
-  onSelect: (locationKey: number) => any;
+  onSelect: (location: {
+    region?: number | null;
+    sector?: number | null;
+    space?: number | null;
+  }) => any;
+}
+
+interface DmLocationSelectState {
+  selectionMode: "region" | "sector" | "space";
+  selectedRegion?: number | null;
+  selectedSector?: number | null;
+  selectedSpace?: number | null;
 }
 
 export class DmLocationSelect extends React.Component<
   DmLocationSelectProps,
-  DmLocationSelectState,
-  any
+  DmLocationSelectState
 > {
   constructor(props: any) {
     super(props);
-
+    const currentScene = SceneManager.scene.current();
     this.state = {
-      locations: CampaignLocations.getLocationsByRegion(
-        LocationManager.location.current().region
-      ),
-      selectingRegion: false
+      selectedRegion: currentScene.region,
+      selectedSector: currentScene.sector,
+      selectedSpace: currentScene.space,
+      selectionMode: "region"
     };
+
+    this.selectRegion = this.selectRegion.bind(this);
+    this.selectSector = this.selectSector.bind(this);
+    this.selectSpace = this.selectSpace.bind(this);
+    this.goToRegionSelect = this.goToRegionSelect.bind(this);
+    this.goToSectorSelect = this.goToSectorSelect.bind(this);
   }
 
-  public selectLocation(locationKey: number) {
-    this.props.onSelect(locationKey)
+  public componentDidMount() {
+    if (this.state.selectedSpace || this.state.selectedSector) {
+      this.setState({
+        selectionMode: "space"
+      });
+    } else if (this.state.selectedRegion) {
+      this.setState({
+        selectionMode: "sector"
+      });
+    } else {
+      this.setState({
+        selectionMode: "region"
+      });
+    }
+  }
+
+  public selectLocation() {
+    this.props.onSelect({
+      region: this.state.selectedRegion,
+      sector: this.state.selectedSector,
+      space: this.state.selectedSpace
+    });
   }
 
   public goToRegionSelect() {
     this.setState({
-      selectingRegion: true
+      selectionMode: "region"
     });
   }
 
-  public selectRegion(regionKey: number) {
+  public goToSectorSelect() {
     this.setState({
-      locations: CampaignLocations.getLocationsByRegion(regionKey),
-      selectingRegion: false
+      selectionMode: "sector"
     });
+  }
+
+  public selectRegion(regionKey?: number) {
+    if (!isNil(regionKey)) {
+      this.setState({
+        selectedRegion: regionKey,
+        selectedSector: null,
+        selectedSpace: null,
+        selectionMode: "sector"
+      });
+    } else {
+      this.setState({
+        selectedRegion: null,
+        selectedSector: null,
+        selectedSpace: null
+      });
+
+      this.selectLocation();
+    }
+  }
+
+  public selectSector(sectorKey?: number) {
+    if (!isNil(sectorKey)) {
+      this.setState({
+        selectedSector: sectorKey,
+        selectedSpace: null,
+        selectionMode: "space"
+      });
+    } else {
+      this.setState({
+        selectedSector: null,
+        selectedSpace: null
+      });
+
+      this.selectLocation();
+    }
+  }
+
+  public selectSpace(spaceKey?: number) {
+    if (!isNil(spaceKey)) {
+      this.setState({
+        selectedSpace: spaceKey,
+        selectionMode: "space"
+      });
+    } else {
+      this.setState({
+        selectedSpace: null
+      });
+
+      this.selectLocation();
+    }
   }
 
   public render() {
     return (
-      <div className="dm-location-select">
-        {this.state.selectingRegion && (
-          <DmRegionSelect onSelect={this.selectRegion.bind(this)} />
-        )}
-        {!this.state.selectingRegion && (
-          <div className="dm-location-select-by-region">
-            <JxButton
-              label="Select Region"
-              icon="ArrowLeft"
-              viz="mortal"
-              onClick={this.goToRegionSelect.bind(this)}
+      <div>
+        {this.state.selectionMode === "region" && (
+          <div>
+            <DmRegionSelect
+              onSelect={this.selectRegion}
+              onSelectNone={this.selectRegion}
             />
-            <div className="image-tile-group">
-              {this.state &&
-                this.state.locations.map((location: ICampaignLocation) => (
-                  <ImageTile
-                    imagesrc={location.imagesrc}
-                    onSelect={this.selectLocation.bind(this, location.key)}
-                  />
-                ))}
-            </div>
           </div>
         )}
+        {this.state.selectionMode === "sector" &&
+          !isNil(this.state.selectedRegion) && (
+            <div>
+              <JxButton
+                label="Select Region"
+                icon="ArrowLeftCircle"
+                iconOnLeft={true}
+                onClick={this.goToRegionSelect}
+                viz="mortal"
+              />
+              <DmSectorSelect
+                region={this.state.selectedRegion}
+                onSelect={this.selectSector}
+              />
+            </div>
+          )}
+        {this.state.selectionMode === "space" &&
+          !isNil(this.state.selectedSector) && (
+            <div>
+              <JxButton
+                label="Select Sector"
+                icon="ArrowLeftCircle"
+                onClick={this.goToSectorSelect}
+                viz="mortal"
+              />
+              <DmSpaceSelect
+                sector={this.state.selectedSector}
+                onSelect={this.selectSpace}
+              />
+            </div>
+          )}
       </div>
     );
   }
