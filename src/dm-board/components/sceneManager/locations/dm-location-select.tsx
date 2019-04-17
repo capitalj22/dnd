@@ -1,7 +1,7 @@
 import { isNil } from "lodash";
 import * as React from "react";
 import { JxButton } from "src/common/button/jx-button";
-import { SceneManager } from "src/services/viewManager.service";
+import { SceneManager } from "src/services/sceneManager.service";
 import { DmRegionSelect } from "./dm-region-select";
 import { DmSectorSelect } from "./dm-sector-select";
 import { DmSpaceSelect } from "./dm-space-select";
@@ -36,9 +36,9 @@ export class DmLocationSelect extends React.Component<
       selectionMode: "region"
     };
 
-    this.selectedRegion = currentScene.region;
-    this.selectedSector = currentScene.sector;
-    this.selectedSpace = currentScene.space;
+    this.selectedRegion = currentScene.region && currentScene.region.key;
+    this.selectedSector = currentScene.sector && currentScene.sector.key;
+    this.selectedSpace = currentScene.space && currentScene.space.key;
 
     this.selectRegion = this.selectRegion.bind(this);
     this.selectSector = this.selectSector.bind(this);

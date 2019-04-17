@@ -3,3 +3,8 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+@font-face {
+  font-family: "Breathe-fire";
+  src: url("/fonts/Breathe-fire.ttf.woff");
+}

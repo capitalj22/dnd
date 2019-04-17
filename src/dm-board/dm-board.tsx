@@ -84,6 +84,14 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
     return (
       <div className="dm-board">
         <ReactModal
+          style={{
+            content: {
+              backgroundColor: "#00000022"
+            },
+            overlay: {
+              backgroundColor: "#00000000"
+            }
+          }}
           isOpen={this.state.showSceneManager}
           onRequestClose={this.toggleSceneManager.bind(this, false)}
         >

@@ -1,15 +1,18 @@
 import _ from "lodash";
 import { PB_SCENE_TYPES } from "src/constants/campaign.constants";
+import { CampaignRegions, ICampaignRegion } from "./campaignRegions.api";
+import { CampaignSectors, ICampaignSector } from "./campaignSectors.api";
+import { ICampaignSpace } from "./campaignSpaces.api";
 
 export interface ICampaignScene {
   key: number;
   sceneType: string;
   mood?: {
-    backgroundOverlay: string
-  }
-  region?: number;
-  sector?: number;
-  space?: number;
+    backgroundOverlay: string;
+  };
+  region?: ICampaignRegion;
+  sector?: ICampaignSector;
+  space?: ICampaignSpace;
 }
 
 export interface ICharacterScene extends ICampaignScene {
@@ -21,17 +24,10 @@ const scenes: ICampaignScene[] = [
     key: 1,
     sceneType: PB_SCENE_TYPES.REGION,
     mood: {
-      backgroundOverlay: 'rgba(144, 193, 195, 0.1)'
+      backgroundOverlay: "rgba(144, 193, 195, 0.1)"
     },
-    region: 1
-  },
-  {
-    key: 2,
-    sector: 2,
-    mood: {
-      backgroundOverlay: 'rgba(144, 193, 195, 0.2)'
-    },
-    sceneType: PB_SCENE_TYPES.SECTOR
+    region: CampaignRegions.getRegions()[0],
+    sector: CampaignSectors.getSectors()[0]
   }
 ];
 
