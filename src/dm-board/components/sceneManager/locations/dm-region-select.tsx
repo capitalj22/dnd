@@ -49,6 +49,7 @@ export class DmRegionSelect extends React.Component<
             tiles={this.state.regions}
             srcProp="imagesrc"
             keyProp="key"
+            labelProp="title"
           />
         )}
       </div>

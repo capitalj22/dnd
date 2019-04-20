@@ -86,10 +86,11 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
         <ReactModal
           style={{
             content: {
-              backgroundColor: "#00000022"
+              padding: 0,
+              backgroundColor: '#e4e4e4'
             },
             overlay: {
-              backgroundColor: "#00000000"
+              
             }
           }}
           isOpen={this.state.showSceneManager}

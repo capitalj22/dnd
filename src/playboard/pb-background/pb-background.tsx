@@ -1,6 +1,5 @@
 import { isNil } from "lodash";
 import * as React from "react";
-import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
 import { CommonImages } from "src/apis/commonImages.api";
 import { SceneManager } from "src/services/sceneManager.service";
 import { viewManager } from "../../services/campaignManager.service";
@@ -12,6 +11,8 @@ export class PlayBoardBackground extends React.Component {
       color: "rgba(144, 193, 195, 0.2)",
       src: ""
     },
+    backgroundImageNext: "",
+    crossfading: false,
     table: {
       topLeft: CommonImages.getImages()[0]
     }
@@ -34,13 +35,21 @@ export class PlayBoardBackground extends React.Component {
     }
   }
 
-  public updateBackgroundImage() {
+  public updateBackgroundImage(imagesrc: string) {
     this.setState({
-      backgroundImage: {
-        ...this.state.backgroundImage,
-        src: this.getBackgroundSrc()
-      }
+      backgroundImageNext: imagesrc,
+      crossfading: true
     });
+
+    setTimeout(() => {
+      this.setState({
+        backgroundImage: {
+          ...this.state.backgroundImage,
+          src: imagesrc
+        },
+        crossfading: false
+      });
+    }, 1000);
   }
 
   public componentDidMount(): void {
@@ -54,26 +63,9 @@ export class PlayBoardBackground extends React.Component {
         });
       }
       if (!isNil(scene.space) && !isNil(scene.sector)) {
-        this.setState({
-          backgroundImage: {
-            ...this.state.backgroundImage,
-            src: scene.sector.imagesrc
-          }
-        });
-      } else if (!isNil(scene.sector) && !isNil(scene.region)) {
-        this.setState({
-          backgroundImage: {
-            ...this.state.backgroundImage,
-            src: scene.region.imagesrc
-          }
-        });
-      } else if (!isNil(scene.region)){
-        this.setState({
-          backgroundImage: {
-            ...this.state.backgroundImage,
-            src: scene.region.imagesrc
-          }
-        });
+        this.updateBackgroundImage(scene.sector.imagesrc);
+      } else if (!isNil(scene.region)) {
+        this.updateBackgroundImage(scene.region.imagesrc);
       }
     });
   }
@@ -84,6 +76,13 @@ export class PlayBoardBackground extends React.Component {
         className="pb-bg"
         style={{ backgroundImage: `url(${this.state.backgroundImage.src} )` }}
       >
+        <div
+          className="pb-bg-fadein"
+          style={{
+            backgroundImage: `url(${this.state.backgroundImageNext} )`,
+            opacity: this.state.crossfading ? 1 : 0
+          }}
+        />
         <div
           className="pb-bg-overlay"
           style={{

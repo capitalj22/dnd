@@ -3,6 +3,7 @@ import * as React from "react";
 import { SketchPicker } from "react-color";
 import { JxButton } from "src/common/button/jx-button";
 import { ColorPicker } from "src/common/colorPicker/color-picker";
+import { JxModalBody, JxModalTitle } from "src/common/modal/modal-title";
 import { ILocation, SceneManager } from "src/services/sceneManager.service";
 import { DmLocationSelect } from "../locations/dm-location-select";
 
@@ -61,21 +62,28 @@ export class DmSceneManager extends React.Component<any, DmSceneManagerState> {
 
   public render() {
     return (
-      <div className="jx-button-group">
+      <div>
         {this.state.page === "home" && (
           <div>
-            <JxButton
-              label="Location"
-              icon="MapPin"
-              viz="mortal"
-              onClick={this.goToLocationSelect}
-            />
-            <JxButton
-              label="Mood"
-              icon="Sun"
-              viz="mortal"
-              onClick={this.goToMoodSelect}
-            />
+            <JxModalTitle>Scene</JxModalTitle>
+            <JxModalBody>
+              <div className="tile-group">
+                <JxButton
+                  style="tile"
+                  label="Location"
+                  icon="MapPin"
+                  viz="mortal"
+                  onClick={this.goToLocationSelect}
+                />
+                <JxButton
+                  style="tile"
+                  label="Mood"
+                  icon="Sun"
+                  viz="mortal"
+                  onClick={this.goToMoodSelect}
+                />
+              </div>
+            </JxModalBody>
           </div>
         )}
         {this.state.page === "location" && (

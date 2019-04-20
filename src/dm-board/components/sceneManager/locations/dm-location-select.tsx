@@ -1,6 +1,9 @@
 import { isNil } from "lodash";
 import * as React from "react";
 import { JxButton } from "src/common/button/jx-button";
+import { JxButtonGroup } from "src/common/button/jx-button-group";
+import { JxModalBody, JxModalTitle } from "src/common/modal/modal-title";
+import { JxSequence, JxSequenceItem } from "src/common/sequence/sequence";
 import { SceneManager } from "src/services/sceneManager.service";
 import { DmRegionSelect } from "./dm-region-select";
 import { DmSectorSelect } from "./dm-sector-select";
@@ -125,47 +128,57 @@ export class DmLocationSelect extends React.Component<
   public render() {
     return (
       <div>
-        {this.state.selectionMode === "region" && (
-          <div>
+        <JxModalTitle> {this.state.selectionMode} </JxModalTitle>
+        <JxModalBody>
+          <JxSequence>
+            <JxSequenceItem
+              number={1}
+              label="Region"
+              onClick={this.goToRegionSelect}
+              enabled={
+                this.state.selectionMode === "sector" ||
+                this.state.selectionMode === "space"
+              }
+              active={this.state.selectionMode === "region"}
+            />
+            <JxSequenceItem
+              number={2}
+              label="Sector"
+              onClick={this.goToSectorSelect}
+              enabled={this.state.selectionMode === "space"}
+              active={this.state.selectionMode === "sector"}
+            />
+
+            <JxSequenceItem
+              number={3}
+              label="Space"
+              enabled={false}
+              active={this.state.selectionMode === "space"}
+            />
+          </JxSequence>
+          {this.state.selectionMode === "region" && (
             <DmRegionSelect
               onSelect={this.selectRegion}
               onSelectNone={this.selectRegion}
             />
-          </div>
-        )}
-        {this.state.selectionMode === "sector" &&
-          !isNil(this.selectedRegion) && (
-            <div>
-              <JxButton
-                label="Select Region"
-                icon="ArrowLeftCircle"
-                iconOnLeft={true}
-                onClick={this.goToRegionSelect}
-                viz="mortal"
-              />
+          )}
+          {this.state.selectionMode === "sector" &&
+            !isNil(this.selectedRegion) && (
               <DmSectorSelect
                 region={this.selectedRegion}
                 onSelectNone={this.selectSector}
                 onSelect={this.selectSector}
               />
-            </div>
-          )}
-        {this.state.selectionMode === "space" &&
-          !isNil(this.selectedSector) && (
-            <div>
-              <JxButton
-                label="Select Sector"
-                icon="ArrowLeftCircle"
-                onClick={this.goToSectorSelect}
-                viz="mortal"
-              />
+            )}
+          {this.state.selectionMode === "space" &&
+            !isNil(this.selectedSector) && (
               <DmSpaceSelect
                 sector={this.selectedSector}
                 onSelectNone={this.selectSpace}
                 onSelect={this.selectSpace}
               />
-            </div>
-          )}
+            )}
+        </JxModalBody>
       </div>
     );
   }

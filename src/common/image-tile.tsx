@@ -1,9 +1,10 @@
-import _ from 'lodash';
+import _ from "lodash";
 import * as React from "react";
 import "./image-tile.scss";
 
 interface IImageTileProps {
   imagesrc: string;
+  label?: string;
   onSelect?: () => any;
 }
 
@@ -27,10 +28,11 @@ export class ImageTile extends React.Component<
     return (
       <div
         onClick={this.props.onSelect}
-        className={`image-tile ${this.props.onSelect ? 'selectable' : ''}`}
+        className={`image-tile ${this.props.onSelect ? "selectable" : ""}`}
         style={{ backgroundImage: `url('${this.state.imagesrc}')` }}
       >
         <div className="image-tile-overlay" />
+        <div className="image-tile-label">{this.props.label}</div>
       </div>
     );
   }

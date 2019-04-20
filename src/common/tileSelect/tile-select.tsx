@@ -8,6 +8,7 @@ interface TileSelectProps {
   tiles: any[];
   srcProp: string;
   keyProp: string;
+  labelProp?: string;
   onSelect: (key: number) => any;
   onSelectNone?: () => any;
 }
@@ -33,6 +34,14 @@ export class TileSelect extends React.Component<TileSelectProps, any> {
     return (
       <div className="dm-region-select">
         <div className="image-tile-group">
+          {this.props &&
+            this.props.tiles.map(tile => (
+              <ImageTile
+                label={this.props.labelProp ? tile[this.props.labelProp] : null}
+                imagesrc={tile[this.props.srcProp]}
+                onSelect={this.selectTile.bind(this, tile[this.props.keyProp])}
+              />
+            ))}
           {this.props.showNone && (
             <JxButton
               icon="X"
@@ -42,14 +51,6 @@ export class TileSelect extends React.Component<TileSelectProps, any> {
               onClick={this.selectNone}
             />
           )}
-
-          {this.props &&
-            this.props.tiles.map(tile => (
-              <ImageTile
-                imagesrc={tile[this.props.srcProp]}
-                onSelect={this.selectTile.bind(this, tile[this.props.keyProp])}
-              />
-            ))}
         </div>
       </div>
     );

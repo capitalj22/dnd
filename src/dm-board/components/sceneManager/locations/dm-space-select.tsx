@@ -51,6 +51,7 @@ export class DmSpaceSelect extends React.Component<
             tiles={this.state.spaces}
             srcProp="imagesrc"
             keyProp="key"
+            labelProp="title"
           />
         )}
       </div>
