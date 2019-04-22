@@ -66,6 +66,8 @@ export class PlayBoardBackground extends React.Component {
         this.updateBackgroundImage(scene.sector.imagesrc);
       } else if (!isNil(scene.region)) {
         this.updateBackgroundImage(scene.region.imagesrc);
+      } else {
+        // use generic background image ??
       }
     });
   }
