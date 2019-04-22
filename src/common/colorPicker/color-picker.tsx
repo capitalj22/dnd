@@ -23,15 +23,17 @@ export class ColorPicker extends React.Component<
   constructor(props: ColorPickerProps) {
     super(props);
 
-    this.state = {
-      currentColor: this.props.defaultColor || {}
-    };
-
+  
     this.selectColor = this.selectColor.bind(this);
+  }
+
+  public shouldComponentUpdate(nextProps: any, nextState: any) {
+    return false;
   }
 
   public handleChange(color: any) {
     this.currentColor = color;
+  
     if (isFunction(this.props.onChange)) {
       this.props.onChange(this.currentColor);
     }
@@ -45,7 +47,7 @@ export class ColorPicker extends React.Component<
   public render() {
     return (
       <div className="color-picker">
-        <SketchPicker onChangeComplete={this.handleChange.bind(this)} />
+        <SketchPicker onChangeComplete={this.handleChange.bind(this)} color={this.props.defaultColor}/>
         <JxButton icon="Check" viz="mortal" onClick={this.selectColor} />
       </div>
     );

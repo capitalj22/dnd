@@ -128,57 +128,54 @@ export class DmLocationSelect extends React.Component<
   public render() {
     return (
       <div>
-        <JxModalTitle> {this.state.selectionMode} </JxModalTitle>
-        <JxModalBody>
-          <JxSequence>
-            <JxSequenceItem
-              number={1}
-              label="Region"
-              onClick={this.goToRegionSelect}
-              enabled={
-                this.state.selectionMode === "sector" ||
-                this.state.selectionMode === "space"
-              }
-              active={this.state.selectionMode === "region"}
-            />
-            <JxSequenceItem
-              number={2}
-              label="Sector"
-              onClick={this.goToSectorSelect}
-              enabled={this.state.selectionMode === "space"}
-              active={this.state.selectionMode === "sector"}
-            />
+        <JxSequence>
+          <JxSequenceItem
+            number={1}
+            label="Region"
+            onClick={this.goToRegionSelect}
+            enabled={
+              this.state.selectionMode === "sector" ||
+              this.state.selectionMode === "space"
+            }
+            active={this.state.selectionMode === "region"}
+          />
+          <JxSequenceItem
+            number={2}
+            label="Sector"
+            onClick={this.goToSectorSelect}
+            enabled={this.state.selectionMode === "space"}
+            active={this.state.selectionMode === "sector"}
+          />
 
-            <JxSequenceItem
-              number={3}
-              label="Space"
-              enabled={false}
-              active={this.state.selectionMode === "space"}
-            />
-          </JxSequence>
-          {this.state.selectionMode === "region" && (
-            <DmRegionSelect
-              onSelect={this.selectRegion}
-              onSelectNone={this.selectRegion}
+          <JxSequenceItem
+            number={3}
+            label="Space"
+            enabled={false}
+            active={this.state.selectionMode === "space"}
+          />
+        </JxSequence>
+        {this.state.selectionMode === "region" && (
+          <DmRegionSelect
+            onSelect={this.selectRegion}
+            onSelectNone={this.selectRegion}
+          />
+        )}
+        {this.state.selectionMode === "sector" &&
+          !isNil(this.selectedRegion) && (
+            <DmSectorSelect
+              region={this.selectedRegion}
+              onSelectNone={this.selectSector}
+              onSelect={this.selectSector}
             />
           )}
-          {this.state.selectionMode === "sector" &&
-            !isNil(this.selectedRegion) && (
-              <DmSectorSelect
-                region={this.selectedRegion}
-                onSelectNone={this.selectSector}
-                onSelect={this.selectSector}
-              />
-            )}
-          {this.state.selectionMode === "space" &&
-            !isNil(this.selectedSector) && (
-              <DmSpaceSelect
-                sector={this.selectedSector}
-                onSelectNone={this.selectSpace}
-                onSelect={this.selectSpace}
-              />
-            )}
-        </JxModalBody>
+        {this.state.selectionMode === "space" &&
+          !isNil(this.selectedSector) && (
+            <DmSpaceSelect
+              sector={this.selectedSector}
+              onSelectNone={this.selectSpace}
+              onSelect={this.selectSpace}
+            />
+          )}
       </div>
     );
   }

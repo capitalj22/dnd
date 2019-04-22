@@ -1,0 +1,20 @@
+.dm-scene-creator,
+.dm-scene-creator-overlay,
+.dm-scene-creator-content {
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.dm-scene-creator {
+  position: relative;
+}
+
+.dm-scene-creator-overlay {
+  position: absolute;
+}
+
+.dm-scene-creator-content {
+  position: relative;
+}

@@ -1,9 +1,10 @@
+import { assign } from "lodash";
 import { BehaviorSubject } from "rxjs";
-import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
+import { CampaignRegions } from "src/apis/campaignRegions.api";
 import { CampaignScenes, ICampaignScene } from "src/apis/campaignScenes.api";
 import { CampaignSectors } from "src/apis/campaignSectors.api";
 import { CampaignSpaces } from "src/apis/campaignSpaces.api";
-import { rx } from "./baseManager.service";
+import { rx, Rx } from "./baseManager.service";
 
 export interface ILocation {
   region?: number | null;
@@ -15,14 +16,24 @@ const scene$ = rx(
   new BehaviorSubject<ICampaignScene>(CampaignScenes.getScenes()[0])
 );
 
-export const SceneManager = {
-  scene: scene$,
-  updateScene: (newScene: ICampaignScene) => {
-    scene$.set(newScene);
-  },
-  updateLocation: (location: ILocation) => {
-    scene$.set({
-      ...scene$.current(),
+const scenePreview$ = rx(
+  new BehaviorSubject<ICampaignScene>(CampaignScenes.getScenes()[0])
+);
+
+class Scene {
+  public scene: Rx<ICampaignScene>;
+
+  constructor(scene: Rx<ICampaignScene>) {
+    this.scene = scene;
+  }
+
+  public updateScene(newScene: ICampaignScene) {
+    this.scene.set(newScene);
+  }
+
+  public updateLocation(location: ILocation) {
+    this.scene.set({
+      ...this.scene.current(),
       region: location.region
         ? CampaignRegions.getRegion(location.region)
         : undefined,
@@ -33,13 +44,18 @@ export const SceneManager = {
         ? CampaignSpaces.getSpace(location.space)
         : undefined
     });
-  },
-  updateMood: (mood: any) => {
-    scene$.set({
-      ...scene$.current(),
+  }
+
+  public updateMood(mood: any) {
+    this.scene.set({
+      ...this.scene.current(),
       mood: {
         backgroundOverlay: mood.backgroundOverlay
       }
-    })
+    });
   }
-};
+}
+
+export const SceneManager = new Scene(scene$);
+
+export const ScenePreviewManager = new Scene(scenePreview$);
