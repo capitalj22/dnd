@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { PB_SCENE_TYPES } from "src/constants/campaign.constants";
+import { blendMode } from 'src/playboard/moodOverlay/mood-overlay';
 import { CampaignRegions, ICampaignRegion } from "./campaignRegions.api";
 import { CampaignSectors, ICampaignSector } from "./campaignSectors.api";
 import { ICampaignSpace } from "./campaignSpaces.api";
@@ -9,6 +10,7 @@ export interface ICampaignScene {
   sceneType: string;
   mood?: {
     backgroundOverlay: string;
+    overlayType: blendMode;
   };
   weather: string;
   region?: ICampaignRegion;
@@ -25,7 +27,8 @@ const scenes: ICampaignScene[] = [
     key: 1,
     sceneType: PB_SCENE_TYPES.REGION,
     mood: {
-      backgroundOverlay: "rgba(144, 193, 195, 0.1)"
+      backgroundOverlay: "rgba(144, 193, 195, 0.1)",
+      overlayType: "color"
     },
     weather: "sun",
     region: CampaignRegions.getRegions()[0],

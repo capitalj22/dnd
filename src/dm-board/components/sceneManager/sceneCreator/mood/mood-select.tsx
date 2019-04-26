@@ -4,6 +4,7 @@ import { JxButton } from "src/common/button/jx-button";
 import { JxButtonGroup } from "src/common/button/jx-button-group";
 import { ColorPicker } from "src/common/colorPicker/color-picker";
 import { JxModalPage } from "src/common/modal/modal";
+import { JxSelect } from "src/common/select/jx-select";
 import {
   SceneManager,
   ScenePreviewManager
@@ -36,6 +37,7 @@ export class DmMoodSelect extends React.Component<
     this.cancel = this.cancel.bind(this);
     this.openColorPicker = this.openColorPicker.bind(this);
     this.closeColorPicker = this.closeColorPicker.bind(this);
+    this.onSelectOverlay = this.onSelectOverlay.bind(this);
   }
 
   public resetMood() {
@@ -49,12 +51,14 @@ export class DmMoodSelect extends React.Component<
   }
 
   public updateMood(color: any) {
-    const mood = {
-      backgroundOverlay: `rgba(${color.rgb.r}, ${color.rgb.g}, ${
-        color.rgb.b
-      }, ${color.rgb.a})`
-    };
-    ScenePreviewManager.updateMood(mood);
+    const backgroundOverlay = `rgba(${color.rgb.r}, ${color.rgb.g}, ${
+      color.rgb.b
+    }, ${color.rgb.a})`;
+
+    ScenePreviewManager.updateMood({
+      ...ScenePreviewManager.scene.current().mood,
+      backgroundOverlay
+    });
   }
 
   public openColorPicker() {
@@ -69,11 +73,39 @@ export class DmMoodSelect extends React.Component<
     });
   }
 
+  public onSelectOverlay(e: any) {
+    ScenePreviewManager.updateMood({
+      ...ScenePreviewManager.scene.current().mood,
+      overlayType: e.currentTarget.value
+    });
+
+    console.log(ScenePreviewManager.scene.current().mood)
+  }
+
   public setWeather(weather: string) {
     ScenePreviewManager.updateWeather(weather);
   }
 
   public render() {
+    const options = [
+      "normal",
+      "multiply",
+      "screen",
+      "overlay",
+      "darken",
+      "lighten",
+      "color-dodge",
+      "color-burn",
+      "hard-light",
+      "soft-light",
+      "difference",
+      "exclusion",
+      "hue",
+      "saturation",
+      "color",
+      "luminosity"
+    ];
+
     const scene = SceneManager.scene.current();
     const isColorPickerOpen = this.state.isColorPickerOpen;
     return (
@@ -95,7 +127,7 @@ export class DmMoodSelect extends React.Component<
                 onSelect={this.closeColorPicker}
               />
             )}
-            <select />
+            <JxSelect options={options} onSelect={this.onSelectOverlay} />
           </div>
           <div className="dm-scene-creator-page-section">
             <div className="effects">

@@ -6,10 +6,6 @@ import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
 import { CampaignSectors, ICampaignSector } from "src/apis/campaignSectors.api";
 import { JxButton } from "src/common/button/jx-button";
 import { JxModal } from "src/common/modal/modal";
-import {
-  CampaignMessenger,
-  LocationManager
-} from "src/services/campaignManager.service";
 import { DmSceneManager } from "./components/sceneManager/sceneCreator/dm-scene-creator";
 import "./dm-board.scss";
 
@@ -22,7 +18,6 @@ const SCENE_MODAL_VIEWS = {
 interface IDmBoardState {
   showSceneManager: boolean;
   sceneModalView: string;
-  backgroundImage: string;
   modalTitle: string;
 }
 
@@ -33,7 +28,6 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
     this.state = {
       showSceneManager: false,
       sceneModalView: SCENE_MODAL_VIEWS.SELECT_REGION,
-      backgroundImage: CampaignMessenger.getCurrentBackgroundImage(),
       modalTitle: "Scene Manager"
     };
 
@@ -57,34 +51,6 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
 
   public closeSceneManager() {
     this.toggleSceneManager(false, '');
-  }
-
-  public componentDidMount(): void {
-    CampaignMessenger.getBackgroundImage().subscribe(
-      (backgroundImage: string) => {
-        this.setState({ backgroundImage });
-      }
-    );
-  }
-
-  public setRegion(regionKey: number): void {
-    LocationManager.region.set(CampaignRegions.getRegion(
-      regionKey
-    ) as ICampaignRegion);
-
-    this.closeModal();
-  }
-
-  public setLocation(locationKey: any): void {
-    // extract to service
-    const location = CampaignSectors.getSector(locationKey) as ICampaignSector;
-
-    if (location) {
-      this.setRegion(location.region);
-      LocationManager.location.set(location);
-    }
-
-    this.closeModal();
   }
 
   public render() {

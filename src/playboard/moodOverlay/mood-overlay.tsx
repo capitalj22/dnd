@@ -62,14 +62,15 @@ export class MoodOverlay extends React.Component<
   }
 
   public updateMood(scene: ICampaignScene) {
-    if (scene && scene.weather) {
+    if (scene) {
       this.setState({
         weather: scene.weather
       });
 
-      if (scene.mood && scene.mood.backgroundOverlay) {
+      if (scene.mood) {
         this.setState({
-          overlay: scene.mood.backgroundOverlay
+          overlay: scene.mood.backgroundOverlay,
+          overlayType: scene.mood.overlayType
         });
       }
     }
@@ -103,6 +104,12 @@ export class MoodOverlay extends React.Component<
       case "fire":
         return [
           {
+            backgroundImage: `url('${CommonImages.images.smoke2}')`,
+            mixBlendMode: "multiply",
+            backgroundSize: "cover",
+            opacity: 0.4
+          },
+          {
             backgroundImage: `url('${CommonImages.images.particle1}')`,
             mixBlendMode: "color-dodge"
           },
@@ -119,7 +126,7 @@ export class MoodOverlay extends React.Component<
   }
 
   public render() {
-    const weatherStyle = this.setWeatherStyle() || {};
+    const weatherStyles = this.setWeatherStyle() || [];
     const overlayStyle = {
       backgroundColor: this.state.overlay,
       mixBlendMode: this.state.overlayType
@@ -127,10 +134,9 @@ export class MoodOverlay extends React.Component<
 
     return (
       <div className="mood-overlay">
-        <div className="weather-overlay" style={weatherStyle[0]} />
-        {weatherStyle.length > 1 && (
-          <div className="weather-overlay" style={weatherStyle[1]} />
-        )}
+        {weatherStyles.map(style => (
+          <div className="weather-overlay" style={style} />
+        ))}
         <div className="color-overlay" style={overlayStyle} />
       </div>
     );
