@@ -2,7 +2,7 @@ import { isNil } from "lodash";
 import * as React from "react";
 import { JxButton } from "src/common/button/jx-button";
 import { JxButtonGroup } from "src/common/button/jx-button-group";
-import { JxModalBody, JxModalTitle } from "src/common/modal/modal-title";
+import { JxModalBody, JxModalTitle } from "src/common/modal/modal";
 import { JxSequence, JxSequenceItem } from "src/common/sequence/sequence";
 import { SceneManager } from "src/services/sceneManager.service";
 import { DmRegionSelect } from "./dm-region-select";

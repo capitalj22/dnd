@@ -5,7 +5,7 @@ import ReactModal from "react-modal";
 import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
 import { CampaignSectors, ICampaignSector } from "src/apis/campaignSectors.api";
 import { JxButton } from "src/common/button/jx-button";
-import { JxModal } from "src/common/modal/modal-title";
+import { JxModal } from "src/common/modal/modal";
 import {
   CampaignMessenger,
   LocationManager

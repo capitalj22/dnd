@@ -4,8 +4,10 @@ import * as React from "react";
 import { SketchPicker } from "react-color";
 import { JxButton } from "../button/jx-button";
 
+import './color-picker.scss';
+
 interface ColorPickerProps {
-  onSelect: (color: any) => any;
+  onSelect?: (color: any) => any;
   onChange?: (color: any) => any;
   defaultColor?: any;
 }
@@ -40,15 +42,18 @@ export class ColorPicker extends React.Component<
   }
 
   public selectColor() {
-    //   console.log(this.currentColor);
-    this.props.onSelect(this.currentColor);
+    if (isFunction(this.props.onSelect)) {
+      this.props.onSelect(this.currentColor);
+    }
   }
 
   public render() {
+    const selectButton = <JxButton icon="Check" viz="mortal" onClick={this.selectColor} />;
+
     return (
       <div className="color-picker">
         <SketchPicker onChangeComplete={this.handleChange.bind(this)} color={this.props.defaultColor}/>
-        <JxButton icon="Check" viz="mortal" onClick={this.selectColor} />
+        { isFunction(this.props.onSelect) && selectButton }
       </div>
     );
   }

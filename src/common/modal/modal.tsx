@@ -9,6 +9,10 @@ export const JxModalBody = (props: any) => (
   <div className="modal-body">{props.children}</div>
 );
 
+export const JxModalPage = (props: any) => (
+  <div className="modal-page">{props.children}</div>
+);
+
 export const JxModal = (props: any) => (
   <div className="modal-container">
     <JxModalTitle> {props.title} </JxModalTitle>

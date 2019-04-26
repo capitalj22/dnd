@@ -49,9 +49,14 @@ class Scene {
   public updateMood(mood: any) {
     this.scene.set({
       ...this.scene.current(),
-      mood: {
-        backgroundOverlay: mood.backgroundOverlay
-      }
+      mood
+    });
+  }
+
+  public updateWeather(weather: string) {
+    this.scene.set({
+      ...this.scene.current(),
+      weather
     });
   }
 }

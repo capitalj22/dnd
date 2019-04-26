@@ -3,6 +3,7 @@ import * as React from "react";
 import { CommonImages } from "src/apis/commonImages.api";
 import { SceneManager } from "src/services/sceneManager.service";
 import { viewManager } from "../../services/campaignManager.service";
+import { MoodOverlay } from '../moodOverlay/mood-overlay';
 import "./pb-background.scss";
 
 export class PlayBoardBackground extends React.Component {
@@ -85,15 +86,9 @@ export class PlayBoardBackground extends React.Component {
             opacity: this.state.crossfading ? 1 : 0
           }}
         />
-        <div
-          className="pb-bg-overlay"
-          style={{
-            background: this.state.backgroundImage.color
-          }}
-        >
-          <img className="pb-bg-table" src={this.state.table.topLeft} />
-          {this.props.children}
-        </div>
+        <MoodOverlay />
+        <img className="pb-bg-table" src={this.state.table.topLeft} />
+        {this.props.children}
       </div>
     );
   }

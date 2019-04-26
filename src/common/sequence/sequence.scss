@@ -3,19 +3,22 @@
   display: inline-flex;
   padding: 1rem;
   border-radius: 100%;
-  border: 3px solid #5bd5f7;
+  border: 3px solid white;
   background-color: #00000000;
   width: 2rem;
   height: 2rem;
   align-items: center;
   justify-content: center;
-  color: #5bd5f7;
+  color: white;
   font-size: 2rem;
+  box-shadow: 0 0 4px 3px #0000003d;
+  text-shadow: 1px 1px 2px #0000007d;
 
   .sequence-label {
     position: absolute;
     top: 4.5rem;
-    color: #818181;
+    color: white;
+    text-shadow: 1px 1px 2px #0000007d;
     font-size: 1.2rem;
   }
 
@@ -24,17 +27,19 @@
   }
 
   &.disabled {
+    text-shadow: none;
     background-color: #c7c7c7;
-    border-color: #c7c7c7;
     color: gray;
   }
 
   &.enabled:hover {
-    background-color: #52c0de;
+    text-shadow: none;
+    background-color: #00000024;
     color: white;
   }
 
   &.active {
+    text-shadow: none;
     background-color: #5bd5f7;
     color: white;
   }

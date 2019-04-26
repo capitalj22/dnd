@@ -1,0 +1,16 @@
+.mood-overlay,
+.weather-overlay,
+.color-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+// mix-blend-mode: soft-light;
+.color-overlay {
+  mix-blend-mode: color;
+}
+
+.mood-overlay {
+    // z-index: 0;
+}

@@ -17,4 +17,26 @@
 
 .dm-scene-creator-content {
   position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.dm-scene-creator-content .modal-page {
+  .tile-group {
+    margin: 0 auto;
+  }
+
+  .page-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .dm-scene-creator-page-split {
+    display: flex;
+
+    .dm-scene-creator-page-section {
+      flex: auto;
+    }
+  }
 }

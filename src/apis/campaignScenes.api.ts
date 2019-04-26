@@ -10,6 +10,7 @@ export interface ICampaignScene {
   mood?: {
     backgroundOverlay: string;
   };
+  weather: string;
   region?: ICampaignRegion;
   sector?: ICampaignSector;
   space?: ICampaignSpace;
@@ -26,6 +27,7 @@ const scenes: ICampaignScene[] = [
     mood: {
       backgroundOverlay: "rgba(144, 193, 195, 0.1)"
     },
+    weather: "sun",
     region: CampaignRegions.getRegions()[0],
     sector: CampaignSectors.getSectors()[0]
   }

@@ -43,6 +43,16 @@
     &.mortal {
       background: #33b1d4;
     }
+
+    &.ghost {
+      border: 3px solid white;
+      text-shadow: 1px 1px 2px #0000009c;
+      box-shadow: 1px 2px 3px 1px #0000002e;
+      svg {
+        filter: drop-shadow( 2px 2px 1px rgba(0,0,0,0.3));
+      }
+    }
+
     height: 9rem;
     width: 9rem;
     margin: 1rem;
@@ -55,5 +65,9 @@
 .jx-button-group {
   .jx-button {
     margin: 1rem;
+  }
+
+  .jx-button.square {
+    margin: 0.2rem;
   }
 }

@@ -46,7 +46,6 @@ export class TileSelect extends React.Component<TileSelectProps, any> {
             <JxButton
               icon="X"
               label="none"
-              viz="mortal"
               style="tile"
               onClick={this.selectNone}
             />
