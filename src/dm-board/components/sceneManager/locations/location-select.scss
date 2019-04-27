@@ -1,0 +1,17 @@
+.location-select,
+.location-select-home,
+.location-select-home-section {
+  display: flex;
+  justify-content: center;
+}
+
+.location-select-home-section {
+  flex-direction: column;
+  text-align: center;
+}
+
+.location-select-title {
+  color: white;
+  font-size: 1.4rem;
+  padding-top: 1rem;
+}

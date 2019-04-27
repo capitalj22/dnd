@@ -1,9 +1,13 @@
 .jx-button {
   color: white;
-  cursor: pointer;
+
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
+
+  &.enabled {
+    cursor: pointer;
+  }
 
   &.normo {
     &.mortal {
@@ -49,7 +53,12 @@
       text-shadow: 1px 1px 2px #0000009c;
       box-shadow: 1px 2px 3px 1px #0000002e;
       svg {
-        filter: drop-shadow( 2px 2px 1px rgba(0,0,0,0.3));
+        filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.3));
+      }
+
+      &.disabled {
+        border-color: #c1c1c1;
+        color: #c1c1c1;
       }
     }
 

@@ -79,7 +79,7 @@ export class DmMoodSelect extends React.Component<
       overlayType: e.currentTarget.value
     });
 
-    console.log(ScenePreviewManager.scene.current().mood)
+    console.log(ScenePreviewManager.scene.current().mood);
   }
 
   public setWeather(weather: string) {
@@ -137,29 +137,25 @@ export class DmMoodSelect extends React.Component<
                   style="square"
                   onClick={this.setWeather.bind(this, "sun")}
                 />
-
+                <JxButton
+                  icon="CloudDrizzle"
+                  style="square"
+                  onClick={this.setWeather.bind(this, "drizzle")}
+                />
                 <JxButton
                   icon="CloudRain"
                   style="square"
                   onClick={this.setWeather.bind(this, "rain")}
                 />
-
-                <JxButton
-                  icon="CloudSnow"
-                  style="square"
-                  onClick={this.setWeather.bind(this, "snow")}
-                />
-
                 <JxButton
                   icon="CloudLightning"
                   style="square"
                   onClick={this.setWeather.bind(this, "storm")}
                 />
-
                 <JxButton
-                  icon="CloudDrizzle"
+                  icon="CloudSnow"
                   style="square"
-                  onClick={this.setWeather.bind(this, "drizzle")}
+                  onClick={this.setWeather.bind(this, "snow")}
                 />
               </JxButtonGroup>
               <JxButtonGroup>

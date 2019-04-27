@@ -1,3 +1,4 @@
+import { join } from "lodash";
 import * as React from "react";
 import * as ReactFeather from "react-feather";
 import { IconType } from "src/constants/icons.constants";
@@ -21,6 +22,7 @@ interface JxButtonProps {
   style?: "normo" | "square" | "tile";
   viz?: "mortal" | "ghost";
   onClick?: () => any;
+  disabled?: boolean;
 }
 
 interface JxButtonState {
@@ -33,6 +35,8 @@ export class JxButton extends React.Component<JxButtonProps, JxButtonState> {
     this.state = {
       iconType: ""
     };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   public componentDidMount() {
@@ -53,10 +57,21 @@ export class JxButton extends React.Component<JxButtonProps, JxButtonState> {
     }
   }
 
+  public handleClick(): void {
+    if (!this.props.disabled && this.props.onClick) {
+      this.props.onClick();
+    }
+  }
+
   public render() {
+    const buttonClasses = [
+      this.props.disabled ? "disabled" : "enabled",
+      this.props.viz || JxButtonViz.ghost,
+      this.props.style || JxButtonStyles.normo
+    ];
+
     const TagName = this.state.iconType;
-    const buttonStyle = this.props.style || JxButtonStyles.normo;
-    const buttonViz = this.props.viz || JxButtonViz.ghost;
+
     const hasLabel =
       this.props.label && this.props.style !== JxButtonStyles.square;
     const hasIcon = this.props.icon;
@@ -72,8 +87,8 @@ export class JxButton extends React.Component<JxButtonProps, JxButtonState> {
 
     return (
       <div
-        className={`jx-button ${buttonStyle} ${buttonViz}`}
-        onClick={this.props.onClick}
+        className={`jx-button ${join(buttonClasses, " ")}`}
+        onClick={this.handleClick}
       >
         {hasIcon && this.props.iconOnLeft && icon}
         {hasLabel && (

@@ -1,15 +1,12 @@
-import { isNil } from "lodash";
 import * as React from "react";
 import { CommonImages } from "src/apis/commonImages.api";
 import { SceneManager } from "src/services/sceneManager.service";
-import { viewManager } from "../../services/campaignManager.service";
-import { MoodOverlay } from '../moodOverlay/mood-overlay';
+import { MoodOverlay } from "../moodOverlay/mood-overlay";
 import "./pb-background.scss";
 
 export class PlayBoardBackground extends React.Component {
   public state = {
     backgroundImage: {
-      color: "rgba(144, 193, 195, 0.2)",
       src: ""
     },
     backgroundImageNext: "",
@@ -21,19 +18,6 @@ export class PlayBoardBackground extends React.Component {
 
   constructor(props: any) {
     super(props);
-  }
-
-  public getBackgroundSrc(): string {
-    const currentScene = SceneManager.scene.current();
-
-    switch (viewManager.viewType.current()) {
-      default:
-        if (!isNil(currentScene.region)) {
-          const region = currentScene.region;
-          return region.imagesrc;
-        }
-        return "";
-    }
   }
 
   public updateBackgroundImage(imagesrc: string) {
@@ -55,21 +39,7 @@ export class PlayBoardBackground extends React.Component {
 
   public componentDidMount(): void {
     SceneManager.scene.get().subscribe(scene => {
-      if (!isNil(scene.mood)) {
-        this.setState({
-          backgroundImage: {
-            ...this.state.backgroundImage,
-            color: scene.mood.backgroundOverlay
-          }
-        });
-      }
-      if (!isNil(scene.space) && !isNil(scene.sector)) {
-        this.updateBackgroundImage(scene.sector.imagesrc);
-      } else if (!isNil(scene.region)) {
-        this.updateBackgroundImage(scene.region.imagesrc);
-      } else {
-        // use generic background image ??
-      }
+      this.updateBackgroundImage(scene.layout.backgroundSrc)
     });
   }
 

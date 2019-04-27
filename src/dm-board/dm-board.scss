@@ -6,47 +6,6 @@
   height: 100%;
 }
 
-.dm-board-image {
-  width: 4rem;
-  height: 4rem;
-  background-size: cover;
-  border-radius: 1rem;
-  margin: 1rem;
-  cursor: pointer;
-}
-
-.dm-board-image-picker {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  top: 0;
-  left: 0;
-
-  .dm-board-images {
-    display: flex;
-    background: #36ffad;
-  }
-
-  .dm-color-btn {
-    color: white;
-  }
-}
-
-.dm-color-picker-container {
-  position: absolute;
-  padding: 0.4rem;
-  border-radius: 0.4rem;
-  display: flex;
-  flex-flow: column;
-
-  .dm-color-picker-complete {
-    position: relative;
-    background: rgb(72, 203, 255);
-    border-radius: 0.3rem;
-    padding: 0.1rem;
-  }
-}
-
 .dm-board-options {
   margin-top: 4rem;
 

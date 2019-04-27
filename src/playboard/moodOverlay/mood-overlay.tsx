@@ -85,6 +85,21 @@ export class MoodOverlay extends React.Component<
             mixBlendMode: "screen"
           }
         ];
+      case "storm":
+        return [
+          {
+            backgroundImage: `url('${CommonImages.images.rain}')`,
+            mixBlendMode: "screen",
+            opacity: 0.8
+          },
+          {
+            background: "rgba(255,255,255,100)",
+            animationName: "colorchange",
+            animationDuration: "20s",
+            animationIterationCount: "infinite",
+            mixBlendMode: "overlay"
+          }
+        ];
       case "rain":
         return [
           {

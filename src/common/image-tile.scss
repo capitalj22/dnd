@@ -47,3 +47,12 @@
     margin: 1rem;
   }
 }
+
+.tile-group {
+  display: flex;
+
+  .jx-button.tile,
+  .image-tile {
+    margin: 1rem;
+  }
+}

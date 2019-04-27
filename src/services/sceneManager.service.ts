@@ -1,7 +1,10 @@
-import { assign } from "lodash";
 import { BehaviorSubject } from "rxjs";
 import { CampaignRegions } from "src/apis/campaignRegions.api";
-import { CampaignScenes, ICampaignScene } from "src/apis/campaignScenes.api";
+import {
+  CampaignScenes,
+  ICampaignScene,
+  ICampaignSceneLayout
+} from "src/apis/campaignScenes.api";
 import { CampaignSectors } from "src/apis/campaignSectors.api";
 import { CampaignSpaces } from "src/apis/campaignSpaces.api";
 import { rx, Rx } from "./baseManager.service";
@@ -34,6 +37,10 @@ class Scene {
   public updateLocation(location: ILocation) {
     this.scene.set({
       ...this.scene.current(),
+      layout: {
+        ...this.scene.current().layout,
+        backgroundSrc: this.getLayoutBackground()
+      },
       region: location.region
         ? CampaignRegions.getRegion(location.region)
         : undefined,
@@ -57,6 +64,39 @@ class Scene {
     this.scene.set({
       ...this.scene.current(),
       weather
+    });
+  }
+
+  public getLayoutBackground(): string {
+    const scene = this.scene.current();
+
+    if (scene.space && scene.sector) {
+      if (scene.layout.locationType === "overview") {
+        return scene.sector.imagesrc;
+      } else {
+        return scene.space.imagesrc;
+      }
+    } else if (scene.sector && scene.region) {
+      if (scene.layout.locationType === "overview") {
+        return scene.region.imagesrc;
+      } else {
+        return scene.sector.imagesrc;
+      }
+    } else if (scene.region) {
+      return scene.region.imagesrc;
+    } else {
+      return "";
+      // use generic background image ??
+    }
+  }
+
+  public updateLayout(layout: ICampaignSceneLayout) {
+    this.scene.set({
+      ...this.scene.current(),
+      layout: {
+        ...layout,
+        backgroundSrc: this.getLayoutBackground()
+      }
     });
   }
 }

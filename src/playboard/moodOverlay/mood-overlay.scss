@@ -1,6 +1,8 @@
 .mood-overlay,
 .weather-overlay,
 .color-overlay {
+  transition: mix-blend-mode 0.4s ease-in
+    background-color 0.3s ease-in;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -11,6 +13,51 @@
   mix-blend-mode: color;
 }
 
+@keyframes colorchange {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    opacity: 0.4
+  }
+  2% {
+    opacity: 0
+  }
+  3% {
+    opacity: 0.9
+  }
+  4% {
+    opacity: 0.6
+  }
+  6% {
+    opacity: 0
+  }
+  24% {
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  26% {
+    opacity: 0;
+  }
+  74% {
+    opacity: 0.1;
+  }
+  76% {
+    opacity: 0.9;
+  }
+  77% {
+    opacity: 0.4;
+  }
+  84% {
+    opacity: 0
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .mood-overlay {
-    // z-index: 0;
+  // z-index: 0;
 }

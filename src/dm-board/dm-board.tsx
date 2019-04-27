@@ -76,7 +76,7 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
         <div className="dm-board-options">
           <div className="dm-board-option">
             <JxButton
-              icon="Globe"
+              icon="Tv"
               style="square"
               onClick={this.toggleSceneManager.bind(
                 this,
@@ -87,6 +87,10 @@ export class DmBoard extends React.Component<any, IDmBoardState, any> {
           </div>
           <div className="dm-board-option">
             <JxButton icon="User" style="square" />
+            <div className="dm-board-option-flyout" />
+          </div>
+          <div className="dm-board-option">
+            <JxButton icon="FilePlus" style="square" />
             <div className="dm-board-option-flyout" />
           </div>
         </div>

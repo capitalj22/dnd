@@ -11,14 +11,17 @@ import {
   SceneManager,
   ScenePreviewManager
 } from "src/services/sceneManager.service";
-import { DmLocationSelect } from "../locations/dm-location-select";
+import { DmLocationSelect2 } from "../locations/dm-location-select-2";
+import { DmSceneLayoutSelect } from "../sceneLayout/dm-scene-layout";
 import "./dm-scene-creator.scss";
+import { DmSceneCreatorHome } from "./home/scene-creator-home";
 import { DmMoodSelect } from "./mood/mood-select";
 
+export type DmSceneManagerPage = "home" | "location" | "mood" | "layout";
+
 interface DmSceneManagerState {
-  page: string;
+  page: DmSceneManagerPage;
   bg: string;
-  overlay: string;
 }
 
 interface DmSceneManagerProps {
@@ -36,17 +39,21 @@ export class DmSceneManager extends React.Component<
 
     this.state = {
       page: "home",
-      bg: "",
-      overlay: ""
+      bg: ""
     };
 
-    this.goToLocationSelect = this.goToLocationSelect.bind(this);
-    this.goToMoodSelect = this.goToMoodSelect.bind(this);
     this.goToHome = this.goToHome.bind(this);
     this.updateSceneLocation = this.updateSceneLocation.bind(this);
     this.updateScene = this.updateScene.bind(this);
     this.updatePreviewMood = this.updatePreviewMood.bind(this);
     this.saveScene = this.saveScene.bind(this);
+    this.navigate = this.navigate.bind(this);
+  }
+
+  public navigate(page: DmSceneManagerPage) {
+    this.setState({
+      page
+    });
   }
 
   public componentDidMount() {
@@ -69,20 +76,8 @@ export class DmSceneManager extends React.Component<
   }
 
   public updateScene(scene: ICampaignScene) {
-    let regionImage = scene && scene.region && scene.region.imagesrc;
-    const overlay = scene && scene.mood && scene.mood.backgroundOverlay;
-
-    if (!isNil(scene.space) && !isNil(scene.sector)) {
-      regionImage = scene.sector.imagesrc;
-    } else if (!isNil(scene.region)) {
-      regionImage = scene.region.imagesrc;
-    } else {
-      // use generic background image ??
-    }
-
     this.setState({
-      bg: regionImage as string,
-      overlay: overlay as string
+      bg: scene.layout.backgroundSrc as string
     });
   }
 
@@ -98,18 +93,6 @@ export class DmSceneManager extends React.Component<
     }
 
     return "";
-  }
-
-  public goToLocationSelect() {
-    this.setState({
-      page: "location"
-    });
-  }
-
-  public goToMoodSelect() {
-    this.setState({
-      page: "mood"
-    });
   }
 
   public goToHome() {
@@ -136,25 +119,6 @@ export class DmSceneManager extends React.Component<
   }
 
   public render() {
-    const data = [
-      "normal",
-      "multiply",
-      "screen",
-      "overlay",
-      "darken",
-      "lighten",
-      "color-dodge",
-      "color-burn",
-      "hard-light",
-      "soft-light",
-      "difference",
-      "exclusion",
-      "hue",
-      "saturation",
-      "color",
-      "luminosity"
-    ];
-
     return (
       <div
         className="dm-scene-creator"
@@ -164,40 +128,50 @@ export class DmSceneManager extends React.Component<
         <div className="dm-scene-creator-content">
           {this.state.page === "home" && (
             <JxModalPage>
-              <div className="tile-group">
-                <JxButton
-                  style="tile"
-                  label="Location"
-                  icon="MapPin"
-                  onClick={this.goToLocationSelect}
-                />
-                <JxButton
-                  style="tile"
-                  label="Mood"
-                  icon="Sun"
-                  onClick={this.goToMoodSelect}
-                />
-                <JxButton
-                  style="tile"
-                  label="Type"
-                  icon="Type"
-                  onClick={this.goToMoodSelect}
-                />
-              </div>
+              <DmSceneCreatorHome
+                onNavigate={this.navigate}
+                onSave={this.saveScene}
+              />
               <div className="page-footer">
-                <JxButton
-                  onClick={this.saveScene}
-                  label="Set Scene"
-                  icon="CheckSquare"
-                />
+                <div />
+                <div>
+                  <JxButton
+                    onClick={this.saveScene}
+                    label="Set Scene"
+                    icon="CheckSquare"
+                  />
+                </div>
               </div>
             </JxModalPage>
           )}
           {this.state.page === "location" && (
-            <DmLocationSelect onSelect={this.updateSceneLocation} />
+            <JxModalPage>
+              <DmLocationSelect2 />
+              <div className="page-footer">
+                <div />
+                <div>
+                  <JxButton icon="Plus" label="Back" onClick={this.goToHome} />
+                </div>
+              </div>
+            </JxModalPage>
           )}
           {this.state.page === "mood" && (
             <DmMoodSelect onComplete={this.goToHome} />
+          )}
+          {this.state.page === "layout" && (
+            <JxModalPage>
+              <DmSceneLayoutSelect />
+              <div className="page-footer">
+                <div />
+                <div>
+                  <JxButton
+                    icon="CheckSquare"
+                    label="Apply Layout"
+                    onClick={this.goToHome}
+                  />
+                </div>
+              </div>
+            </JxModalPage>
           )}
         </div>
       </div>
