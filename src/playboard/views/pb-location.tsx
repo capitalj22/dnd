@@ -9,7 +9,9 @@ import {
 } from "src/apis/campaignScenes.api";
 import { ICampaignSector } from "src/apis/campaignSectors.api";
 import { ICampaignSpace } from "src/apis/campaignSpaces.api";
+import { JxButton } from "src/common/button/jx-button";
 import {
+  Scene,
   SceneManager,
   ScenePreviewManager
 } from "src/services/sceneManager.service";
@@ -30,6 +32,7 @@ export class PbLocationView extends React.Component<
   PbLocationViewState,
   any
 > {
+  private sceneManager: Scene;
   private subscription: Subscription;
   constructor(props: any) {
     super(props);
@@ -40,9 +43,13 @@ export class PbLocationView extends React.Component<
       layout: {
         locationType: "detail",
         showDescription: true,
+        showSubtitle: true,
         backgroundSrc: ""
       }
     };
+
+    this.toggleDescription = this.toggleDescription.bind(this);
+    this.toggleSubtitle = this.toggleSubtitle.bind(this);
   }
 
   public getCurrentLocation(scene: ICampaignScene) {
@@ -71,13 +78,13 @@ export class PbLocationView extends React.Component<
   }
 
   public componentDidMount() {
-    const sceneManager = this.props.isPreview
+    this.sceneManager = this.props.isPreview
       ? ScenePreviewManager
       : SceneManager;
 
-    this.getCurrentLocation(sceneManager.scene.current());
+    this.getCurrentLocation(this.sceneManager.scene.current());
 
-    this.subscription = sceneManager.scene.get().subscribe(scene => {
+    this.subscription = this.sceneManager.scene.get().subscribe(scene => {
       this.getCurrentLocation(scene);
       this.updateLayout(scene);
     });
@@ -85,6 +92,20 @@ export class PbLocationView extends React.Component<
 
   public componentWillUnmount() {
     this.subscription.unsubscribe();
+  }
+
+  public toggleDescription() {
+    this.sceneManager.updateLayout({
+      ...this.state.layout,
+      showDescription: !this.state.layout.showDescription
+    });
+  }
+
+  public toggleSubtitle() {
+    this.sceneManager.updateLayout({
+      ...this.state.layout,
+      showSubtitle: !this.state.layout.showSubtitle
+    });
   }
 
   public render() {
@@ -101,6 +122,15 @@ export class PbLocationView extends React.Component<
                 {this.state.currentLocation.subtitle}
               </span>
             </div>
+            {(this.state.layout.showDescription || this.props.isPreview) && (
+              <div className="pb-location-description">
+                {this.props.isPreview && (
+                  <PreviewOverlay onClick={this.toggleDescription} />
+                )}
+                {this.state.layout.showDescription &&
+                  this.state.currentLocation.description}
+              </div>
+            )}
           </div>
         )}
         {this.state.layout.locationType === "detail" && (
@@ -118,15 +148,25 @@ export class PbLocationView extends React.Component<
                 <span className="title">
                   {this.state.currentLocation.title}
                 </span>
-                <hr />
-                <span className="subtitle">
-                  {this.state.currentLocation.subtitle}
-                </span>
+                {this.state.layout.showSubtitle && <hr />}
+                {(this.props.isPreview || this.state.layout.showSubtitle) && (
+                  <span className="subtitle">
+                    {this.props.isPreview && (
+                      <PreviewOverlay onClick={this.toggleSubtitle} />
+                    )}
+                    {this.state.layout.showSubtitle &&
+                      this.state.currentLocation.subtitle}
+                  </span>
+                )}
               </div>
             </div>
-            {this.state.layout.showDescription && (
+            {(this.state.layout.showDescription || this.props.isPreview) && (
               <div className="pb-location-description">
-                {this.state.currentLocation.description}
+                {this.props.isPreview && (
+                  <PreviewOverlay onClick={this.toggleDescription} />
+                )}
+                {this.state.layout.showDescription &&
+                  this.state.currentLocation.description}
               </div>
             )}
           </div>
@@ -135,3 +175,11 @@ export class PbLocationView extends React.Component<
     );
   }
 }
+
+const PreviewOverlay = (props: any) => {
+  return (
+    <div className="preview-overlay">
+      <JxButton icon="EyeOff" style="square" onClick={props.onClick} />
+    </div>
+  );
+};

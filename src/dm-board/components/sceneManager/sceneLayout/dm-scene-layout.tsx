@@ -7,10 +7,8 @@ import { ScenePreviewManager } from "src/services/sceneManager.service";
 
 export class DmSceneLayoutSelect extends React.Component {
   public setLayoutLocationType(locationType: ICampaignSceneLayoutLocationType) {
-    ScenePreviewManager.updateLayout({
-      ...ScenePreviewManager.scene.current().layout,
-      locationType
-    });
+    ScenePreviewManager.updateLocationType(locationType);
+    // this.setState({});
   }
 
   public render() {

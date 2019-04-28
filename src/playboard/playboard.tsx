@@ -25,7 +25,9 @@ export class Playboard extends React.Component<any, IPlayboardState, any> {
     this.state = {
       currentView: views.LOCATION
     };
+  }
 
+  public componentDidMount() {
     this.subscription = CampaignMessenger.view.getView().subscribe(view => {
       this.setState({ currentView: view });
     });

@@ -14,9 +14,11 @@ interface TileSelectProps {
 }
 
 export class TileSelect extends React.Component<TileSelectProps, any> {
+  private tiles: any[];
+
   constructor(props: any) {
     super(props);
-
+    this.tiles = this.props.tiles.map((tile, idx) => ({ ...tile, key: idx }));
     this.selectNone = this.selectNone.bind(this);
   }
 

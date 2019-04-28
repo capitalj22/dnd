@@ -3,7 +3,8 @@ import { CampaignRegions } from "src/apis/campaignRegions.api";
 import {
   CampaignScenes,
   ICampaignScene,
-  ICampaignSceneLayout
+  ICampaignSceneLayout,
+  ICampaignSceneLayoutLocationType
 } from "src/apis/campaignScenes.api";
 import { CampaignSectors } from "src/apis/campaignSectors.api";
 import { CampaignSpaces } from "src/apis/campaignSpaces.api";
@@ -23,7 +24,10 @@ const scenePreview$ = rx(
   new BehaviorSubject<ICampaignScene>(CampaignScenes.getScenes()[0])
 );
 
-class Scene {
+
+// TODO manage side effects
+
+export class Scene {
   public scene: Rx<ICampaignScene>;
 
   constructor(scene: Rx<ICampaignScene>) {
@@ -37,15 +41,15 @@ class Scene {
   public updateLocation(location: ILocation) {
     const newLocation = {
       region: location.region
-      ? CampaignRegions.getRegion(location.region)
-      : undefined,
-    sector: location.sector
-      ? CampaignSectors.getSector(location.sector)
-      : undefined,
-    space: location.space
-      ? CampaignSpaces.getSpace(location.space)
-      : undefined
-    }
+        ? CampaignRegions.getRegion(location.region)
+        : undefined,
+      sector: location.sector
+        ? CampaignSectors.getSector(location.sector)
+        : undefined,
+      space: location.space
+        ? CampaignSpaces.getSpace(location.space)
+        : undefined
+    };
 
     this.scene.set({
       ...this.scene.current(),
@@ -58,7 +62,7 @@ class Scene {
         ...this.scene.current().layout,
         backgroundSrc: this.getLayoutBackground()
       }
-    })
+    });
   }
 
   public updateMood(mood: any) {
@@ -77,9 +81,9 @@ class Scene {
 
   public getLayoutBackground(): string {
     const scene = this.scene.current();
-  
+
     if (scene.space && scene.sector) {
-      if (scene.layout.locationType === "detail") {
+      if (scene.layout.locationType === "overview") {
         return scene.space.imagesrc;
       } else {
         return scene.sector.imagesrc;
@@ -98,9 +102,26 @@ class Scene {
     }
   }
 
+  public updateLayoutBackground() {
+    const scene = this.scene.current();
+    scene.layout.backgroundSrc = this.getLayoutBackground();
+
+    this.scene.set(scene);
+  }
+
+  public updateLocationType(locationType: ICampaignSceneLayoutLocationType) {
+    const newScene = this.scene.current();
+    newScene.layout.locationType = locationType;
+
+    this.scene.set(newScene);
+    this.updateLayoutBackground();
+  }
+
   public updateLayout(layout: ICampaignSceneLayout) {
+    const scene = this.scene.current();
+
     this.scene.set({
-      ...this.scene.current(),
+      ...scene,
       layout: {
         ...layout,
         backgroundSrc: this.getLayoutBackground()

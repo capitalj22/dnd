@@ -148,7 +148,10 @@ export class MoodOverlay extends React.Component<
   }
 
   public render() {
-    const weatherStyles = this.setWeatherStyle() || [];
+    const weatherStyles = this.setWeatherStyle().map((style, idx) => ({
+      ...style,
+      key: idx
+    })) || [{ key: 0 }];
     const overlayStyle = {
       backgroundColor: this.state.overlay,
       mixBlendMode: this.state.overlayType
