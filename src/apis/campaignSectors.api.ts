@@ -1,4 +1,4 @@
-import { filter, find } from "lodash";
+import { filter, find, map } from "lodash";
 import { CampaignImages } from "./campaignImages.api";
 
 export interface ICampaignSector {
@@ -24,20 +24,20 @@ const sectors: ICampaignSector[] = [
   {
     key: 2,
     region: 1,
-    title: "Wailing Cave",
-    subtitle: "Cave Entrance",
-    imagesrc: CampaignImages.getImages()[5],
-    description: ""
+    title: "Castle Ahm",
+    subtitle: "",
+    imagesrc: CampaignImages.getImages()[9],
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\n Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
+    
+    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum`
   },
   {
     key: 3,
     region: 1,
-    title: "Castle Ahm",
-    subtitle: "",
-    imagesrc: CampaignImages.getImages()[10],
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
-    
-    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum`
+    title: "Wailing Cave",
+    subtitle: "Cave Entrance",
+    imagesrc: CampaignImages.getImages()[5],
+    description: ""
   },
   {
     key: 4,
@@ -46,7 +46,7 @@ const sectors: ICampaignSector[] = [
     subtitle: "Mountain Retreat",
     imagesrc: CampaignImages.getImages()[8],
     description: ""
-  },
+  }
 ];
 
 export const CampaignSectors = {

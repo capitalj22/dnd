@@ -35,22 +35,30 @@ class Scene {
   }
 
   public updateLocation(location: ILocation) {
+    const newLocation = {
+      region: location.region
+      ? CampaignRegions.getRegion(location.region)
+      : undefined,
+    sector: location.sector
+      ? CampaignSectors.getSector(location.sector)
+      : undefined,
+    space: location.space
+      ? CampaignSpaces.getSpace(location.space)
+      : undefined
+    }
+
+    this.scene.set({
+      ...this.scene.current(),
+      ...newLocation
+    });
+
     this.scene.set({
       ...this.scene.current(),
       layout: {
         ...this.scene.current().layout,
         backgroundSrc: this.getLayoutBackground()
-      },
-      region: location.region
-        ? CampaignRegions.getRegion(location.region)
-        : undefined,
-      sector: location.sector
-        ? CampaignSectors.getSector(location.sector)
-        : undefined,
-      space: location.space
-        ? CampaignSpaces.getSpace(location.space)
-        : undefined
-    });
+      }
+    })
   }
 
   public updateMood(mood: any) {
@@ -69,18 +77,18 @@ class Scene {
 
   public getLayoutBackground(): string {
     const scene = this.scene.current();
-
+  
     if (scene.space && scene.sector) {
-      if (scene.layout.locationType === "overview") {
-        return scene.sector.imagesrc;
-      } else {
+      if (scene.layout.locationType === "detail") {
         return scene.space.imagesrc;
+      } else {
+        return scene.sector.imagesrc;
       }
     } else if (scene.sector && scene.region) {
       if (scene.layout.locationType === "overview") {
-        return scene.region.imagesrc;
-      } else {
         return scene.sector.imagesrc;
+      } else {
+        return scene.region.imagesrc;
       }
     } else if (scene.region) {
       return scene.region.imagesrc;
