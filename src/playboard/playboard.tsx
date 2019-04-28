@@ -1,6 +1,5 @@
 import * as React from "react";
-import { JxButton } from "src/common/button/jx-button";
-import { CharacterToken } from 'src/common/token/character-token';
+import { Subscription } from "rxjs";
 import { DmBoard } from "src/dm-board/dm-board";
 import { DmBoardTray } from "src/dm-board/dm-board-tray";
 import { CampaignMessenger } from "../services/campaignManager.service";
@@ -18,6 +17,8 @@ interface IPlayboardState {
 }
 
 export class Playboard extends React.Component<any, IPlayboardState, any> {
+  private subscription: Subscription;
+
   constructor(props: any) {
     super(props);
 
@@ -25,9 +26,13 @@ export class Playboard extends React.Component<any, IPlayboardState, any> {
       currentView: views.LOCATION
     };
 
-    CampaignMessenger.view.getView().subscribe(view => {
+    this.subscription = CampaignMessenger.view.getView().subscribe(view => {
       this.setState({ currentView: view });
     });
+  }
+
+  public componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   public render() {
