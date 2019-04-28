@@ -1,5 +1,6 @@
 import { isNil } from "lodash";
 import * as React from "react";
+import { Subscription } from "rxjs";
 import { ICampaignRegion } from "src/apis/campaignRegions.api";
 import {
   ICampaignScene,
@@ -29,6 +30,7 @@ export class PbLocationView extends React.Component<
   PbLocationViewState,
   any
 > {
+  private subscription: Subscription;
   constructor(props: any) {
     super(props);
 
@@ -75,14 +77,18 @@ export class PbLocationView extends React.Component<
 
     this.getCurrentLocation(sceneManager.scene.current());
 
-    sceneManager.scene.get().subscribe(scene => {
+    this.subscription = sceneManager.scene.get().subscribe(scene => {
       this.getCurrentLocation(scene);
       this.updateLayout(scene);
     });
   }
 
+  public componentWillUnmount() {
+    this.subscription.unsubscribe();
+  }
+
   public render() {
-    const classProps = this.props.isPreview ? 'preview' : '';
+    const classProps = this.props.isPreview ? "preview" : "";
 
     return (
       <div className={`pb-location-view ${classProps}`}>

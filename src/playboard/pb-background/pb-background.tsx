@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Subscription } from "rxjs";
 import { CommonImages } from "src/apis/commonImages.api";
 import { SceneManager } from "src/services/sceneManager.service";
 import { MoodOverlay } from "../moodOverlay/mood-overlay";
@@ -15,6 +16,7 @@ export class PlayBoardBackground extends React.Component {
       topLeft: CommonImages.getImages()[0]
     }
   };
+  private subscription: Subscription;
 
   constructor(props: any) {
     super(props);
@@ -38,9 +40,13 @@ export class PlayBoardBackground extends React.Component {
   }
 
   public componentDidMount(): void {
-    SceneManager.scene.get().subscribe(scene => {
-      this.updateBackgroundImage(scene.layout.backgroundSrc)
+    this.subscription = SceneManager.scene.get().subscribe(scene => {
+      this.updateBackgroundImage(scene.layout.backgroundSrc);
     });
+  }
+
+  public componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   public render() {

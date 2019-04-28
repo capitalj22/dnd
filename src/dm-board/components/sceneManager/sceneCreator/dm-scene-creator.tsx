@@ -1,5 +1,6 @@
 import { isNil } from "lodash";
 import * as React from "react";
+import { Observable, Subscription } from "rxjs";
 import { CampaignRegions, ICampaignRegion } from "src/apis/campaignRegions.api";
 import { ICampaignScene } from "src/apis/campaignScenes.api";
 // @ts-ignore
@@ -33,6 +34,7 @@ export class DmSceneManager extends React.Component<
   DmSceneManagerState
 > {
   public overlay: any;
+  private subscription: Subscription;
 
   constructor(props: DmSceneManagerProps) {
     super(props);
@@ -57,9 +59,13 @@ export class DmSceneManager extends React.Component<
   }
 
   public componentDidMount() {
-    ScenePreviewManager.scene.get().subscribe(scene => {
+    this.subscription = ScenePreviewManager.scene.get().subscribe(scene => {
       this.updateScene(scene);
     });
+  }
+
+  public componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   public updatePreviewMood(color: any) {

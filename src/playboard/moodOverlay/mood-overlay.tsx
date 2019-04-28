@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Subscription } from "rxjs";
 import { ICampaignScene } from "src/apis/campaignScenes.api";
 import { CommonImages } from "src/apis/commonImages.api";
 import {
@@ -39,6 +40,8 @@ export class MoodOverlay extends React.Component<
   IMoodOverlayProps,
   IMoodOverlayState
 > {
+  private subscription: Subscription;
+
   constructor(props: IMoodOverlayProps) {
     super(props);
 
@@ -51,14 +54,18 @@ export class MoodOverlay extends React.Component<
 
   public componentDidMount() {
     if (this.props.isPreview) {
-      ScenePreviewManager.scene.get().subscribe(scene => {
+      this.subscription = ScenePreviewManager.scene.get().subscribe(scene => {
         this.updateMood(scene);
       });
     } else {
-      SceneManager.scene.get().subscribe(scene => {
+      this.subscription = SceneManager.scene.get().subscribe(scene => {
         this.updateMood(scene);
       });
     }
+  }
+
+  public componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   public updateMood(scene: ICampaignScene) {
